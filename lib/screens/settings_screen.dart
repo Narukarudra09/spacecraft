@@ -6,7 +6,6 @@ import 'package:spacecraft/screens/profile_screen.dart';
 
 import '../provider/settings_provider.dart';
 import '../provider/theme_provider.dart';
-import '../provider/user_provider.dart';
 import 'add_room_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -20,37 +19,40 @@ class SettingsScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                AuthProvider(UserProvider()).logout(context);
+                AuthProvider().logout(context);
               },
               icon: Icon(Icons.logout_outlined))
         ],
       ),
       body: ListView(
         children: [
-          Consumer<UserProvider>(
-            builder: (context, userProvider, _) => _ProfileCard(
-              name: userProvider.profile.fullName,
-              email: userProvider.profile.email,
-            ),
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) =>
+                _ProfileCard(
+                  name: authProvider.profile.fullName,
+                  email: authProvider.profile.email,
+                ),
           ),
           const Divider(),
           Consumer<ThemeProvider>(
-            builder: (context, themeProvider, _) => ListTile(
-              leading: const Icon(
-                Icons.person,
-                color: Color(0xFFF5F5DC),
-              ),
-              title: Text(
-                "Profile",
-                style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+            builder: (context, themeProvider, _) =>
+                ListTile(
+                  leading: const Icon(
+                    Icons.person,
+                    color: Color(0xFFF5F5DC),
+                  ),
+                  title: Text(
+                    "Profile",
+                    style: GoogleFonts.montserrat(
+                      color: Color(0xFFF5F5DC),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileScreen()));
+                  },
                 ),
-              ),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
-              },
-            ),
           ),
           /*Consumer<ThemeProvider>(
             builder: (context, themeProvider, _) => ListTile(
@@ -70,44 +72,48 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),*/
           Consumer<SettingsProvider>(
-            builder: (context, settingsProvider, _) => ListTile(
-              leading: const Icon(
-                Icons.notifications,
-                color: Color(0xFFF5F5DC),
-              ),
-              title: Text(
-                'Notifications',
-                style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+            builder: (context, settingsProvider, _) =>
+                ListTile(
+                  leading: const Icon(
+                    Icons.notifications,
+                    color: Color(0xFFF5F5DC),
+                  ),
+                  title: Text(
+                    'Notifications',
+                    style: GoogleFonts.montserrat(
+                      color: Color(0xFFF5F5DC),
+                    ),
+                  ),
+                  trailing: Switch(
+                    activeColor: const Color(0xFFF5F5DC),
+                    value: settingsProvider.notificationsEnabled,
+                    onChanged: (_) => settingsProvider.toggleNotifications(),
+                  ),
                 ),
-              ),
-              trailing: Switch(
-                activeColor: const Color(0xFFF5F5DC),
-                value: settingsProvider.notificationsEnabled,
-                onChanged: (_) => settingsProvider.toggleNotifications(),
-              ),
-            ),
           ),
           Consumer<SettingsProvider>(
-            builder: (context, settingsProvider, _) => ListTile(
-              leading: const Icon(
-                Icons.admin_panel_settings,
-                color: Color(0xFFF5F5DC),
-              ),
-              title: Text(
-                'Toggle Admin Status',
-                style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+            builder: (context, settingsProvider, _) =>
+                ListTile(
+                  leading: const Icon(
+                    Icons.admin_panel_settings,
+                    color: Color(0xFFF5F5DC),
+                  ),
+                  title: Text(
+                    'Toggle Admin Status',
+                    style: GoogleFonts.montserrat(
+                      color: Color(0xFFF5F5DC),
+                    ),
+                  ),
+                  trailing: Switch(
+                    activeColor: const Color(0xFFF5F5DC),
+                    value: settingsProvider.isAdmin,
+                    onChanged: (_) => settingsProvider.toggleAdmin(),
+                  ),
                 ),
-              ),
-              trailing: Switch(
-                activeColor: const Color(0xFFF5F5DC),
-                value: settingsProvider.isAdmin,
-                onChanged: (_) => settingsProvider.toggleAdmin(),
-              ),
-            ),
           ),
-          if (context.watch<SettingsProvider>().isAdmin) ...[
+          if (context
+              .watch<SettingsProvider>()
+              .isAdmin) ...[
             const Divider(thickness: 2),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -128,10 +134,11 @@ class SettingsScreen extends StatelessWidget {
                     color: Color(0xFFF5F5DC),
                   ),
                 ),
-                onTap: () => Navigator.push(context,
+                onTap: () =>
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AddRoomDialog();
-                    }))),
+                          return AddRoomDialog();
+                        }))),
           ],
         ],
       ),

@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../provider/user_provider.dart';
+import 'package:spacecraft/provider/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -17,9 +16,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, _) {
-        final profile = userProvider.profile;
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, _) {
+        final profile = authProvider.profile;
         print('Full Name: ${profile.fullName}');
         print('Email: ${profile.email}');
         print('Date of Birth: ${profile.dateOfBirth}');
@@ -95,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 20),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
-                    initialValue: userProvider.profile.fullName,
+                    initialValue: authProvider.profile.fullName,
                     decoration: InputDecoration(
                       labelText: 'Full Name',
                       labelStyle: const TextStyle(color: Colors.white),
@@ -118,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     validator: (value) => value?.isEmpty ?? true
                         ? 'Please enter your full name'
                         : null,
-                    onChanged: (value) => userProvider.updateProfile(
+                    onChanged: (value) => authProvider.updateProfile(
                       profile.copyWith(fullName: value),
                     ),
                   ),
@@ -148,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value?.isEmpty ?? !value!.contains('@')
                             ? 'Please enter a valid email'
                             : null,
-                    onChanged: (value) => userProvider.updateProfile(
+                    onChanged: (value) => authProvider.updateProfile(
                       profile.copyWith(email: value),
                     ),
                   ),
@@ -175,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         lastDate: DateTime.now(),
                       );
                       if (date != null) {
-                        userProvider.updateProfile(
+                        authProvider.updateProfile(
                           profile.copyWith(dateOfBirth: date),
                         );
                       }
@@ -208,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               .map(
                                 (gender) => SimpleDialogOption(
                                   onPressed: () {
-                                    userProvider.updateProfile(
+                                    authProvider.updateProfile(
                                       profile.copyWith(gender: gender),
                                     );
                                     Navigator.pop(context);

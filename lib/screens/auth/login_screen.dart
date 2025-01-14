@@ -42,10 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
         // Handle login
         final email = _emailController.text;
         final password = _passwordController.text;
-        final success = await context.read<AuthProvider>().login(
-              email: email,
-              password: password,
-            );
+        final success =
+            await Provider.of<AuthProvider>(context, listen: false).login(
+          email: email,
+          password: password,
+        );
         if (success) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const MainScreen()));
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text(
-                    'Login failed: ${context.read<AuthProvider>().error}')),
+                    'Login failed: ${Provider.of<AuthProvider>(context, listen: false).error}')),
           );
         }
       } else {
@@ -80,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text(
-                    'Sign up failed: ${context.read<AuthProvider>().error}')),
+                    'Sign up failed: ${Provider.of<AuthProvider>(context, listen: false).error}')),
           );
         }
       }
