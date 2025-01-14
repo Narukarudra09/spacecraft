@@ -27,9 +27,9 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: [
           Consumer<AuthProvider>(
-            builder: (context, authProvider, _) => _ProfileCard(
-              name: authProvider.profile.fullName,
-              email: authProvider.profile.email,
+            builder: (context, userProvider, _) => _ProfileCard(
+              name: userProvider.profile.fullName,
+              email: userProvider.profile.email,
             ),
           ),
           const Divider(),
@@ -163,13 +163,9 @@ class _ProfileCard extends StatelessWidget {
                 style: GoogleFonts.montserrat(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFFF5F5DC)),
+                    color: Colors.white),
               ),
-              Text(
-                email,
-                style: GoogleFonts.montserrat(
-                    fontSize: 14, color: Color(0xFFF5F5DC)),
-              ),
+              Text(email),
             ],
           ),
         ],
