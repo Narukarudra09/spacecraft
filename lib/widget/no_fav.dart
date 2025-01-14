@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class NoFav extends StatelessWidget {
@@ -16,10 +17,13 @@ class NoFav extends StatelessWidget {
           Lottie.network(
               "https://lottie.host/fcd4330d-3034-4c98-b908-52630eac8d0f/vrY5OElx2C.json",
               width: 200,
-              height: 200),
-          const Text(
+              height: 180),
+          Text(
             "No favorite",
-            style: TextStyle(fontSize: 28, color: Color(0xFFF5F5DC)),
+            style: GoogleFonts.montserrat(
+                fontSize: 28,
+                color: Color(0xFFF5F5DC),
+                fontWeight: FontWeight.bold),
           )
         ],
       ),

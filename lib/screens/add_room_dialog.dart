@@ -77,6 +77,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DropdownButtonFormField<String>(
+                dropdownColor: Color.fromARGB(255, 17, 24, 31),
                 value: _designType,
                 decoration: InputDecoration(
                   labelText: 'Design Type',
@@ -95,9 +96,27 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                         color: Color.fromARGB(255, 17, 24, 31), width: 2),
                   ),
                 ),
-                items: const [
-                  DropdownMenuItem(value: 'Room', child: Text('Room')),
-                  DropdownMenuItem(value: 'Kitchen', child: Text('Kitchen')),
+                items: [
+                  DropdownMenuItem(
+                      value: 'Room',
+                      child: Text(
+                        'Room',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFF5F5DC),
+                        ),
+                      )),
+                  DropdownMenuItem(
+                      value: 'Kitchen',
+                      child: Text(
+                        'Kitchen',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFF5F5DC),
+                        ),
+                      )),
                 ],
                 onChanged: (value) {
                   setState(() {
@@ -113,6 +132,10 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                style: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  color: Color(0xFFF5F5DC),
+                ),
                 controller: _titleController,
                 decoration: InputDecoration(
                   labelText: 'Title',
@@ -140,6 +163,10 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                style: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  color: Color(0xFFF5F5DC),
+                ),
                 controller: _subtitleController,
                 decoration: InputDecoration(
                   labelText: 'Subtitle',

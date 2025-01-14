@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:spacecraft/screens/search_dialog.dart';
 
@@ -24,18 +25,18 @@ class SearchScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),
             ),
             child: TextField(
-              style: const TextStyle(color: Colors.white),
+              style: GoogleFonts.montserrat(color: Colors.white),
               readOnly: true,
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => const SearchDialog(),
                 ));
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search...',
                 border: InputBorder.none,
-                hintStyle: TextStyle(color: Color(0xFFF5F5DC)),
-                icon: Icon(Icons.search, color: Color(0xFFF5F5DC)),
+                hintStyle: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
+                icon: const Icon(Icons.search, color: Color(0xFFF5F5DC)),
               ),
             ),
           ),
@@ -98,7 +99,7 @@ class SearchScreen extends StatelessWidget {
                       ),
                       child: Text(
                         item is Room ? 'Room' : 'Kitchen',
-                        style: const TextStyle(
+                        style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontSize: 12,
                         ),

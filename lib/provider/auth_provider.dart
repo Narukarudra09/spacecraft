@@ -1,26 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:spacecraft/provider/user_provider.dart';
 
 import '../models/profile.dart';
 import '../screens/auth/login_screen.dart';
 
 class AuthProvider with ChangeNotifier {
-  final UserProvider _userProvider;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Profile _profile = Profile(
+    fullName: "",
+    dateOfBirth: DateTime.now(),
+    email: '',
+    gender: '',
+    profilePicture: '',
+  );
+
   bool _isLoading = false;
   bool _isAuthenticated = false;
   String? _error;
 
-  AuthProvider(this._userProvider);
+  Profile get profile => _profile;
 
   bool get isLoading => _isLoading;
 
   bool get isAuthenticated => _isAuthenticated;
 
   String? get error => _error;
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
   Future<bool> signUp({
     required String fullName,
@@ -30,8 +42,7 @@ class AuthProvider with ChangeNotifier {
     required String gender,
   }) async {
     try {
-      _isLoading = true;
-      notifyListeners();
+      _setLoading(true);
 
       // Create user with email and password
       UserCredential userCredential =
@@ -57,18 +68,16 @@ class AuthProvider with ChangeNotifier {
         'profilePicture': '',
       });
 
-      _userProvider.updateProfile(profile);
-
+      _profile = profile;
       _isAuthenticated = true;
       _error = null;
-      notifyListeners(); // Notify listeners after updating the profile
+      notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
       _error = e.message;
       return false;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
@@ -77,8 +86,7 @@ class AuthProvider with ChangeNotifier {
     required String password,
   }) async {
     try {
-      _isLoading = true;
-      notifyListeners();
+      _setLoading(true);
 
       // Sign in user with email and password
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
@@ -93,7 +101,6 @@ class AuthProvider with ChangeNotifier {
           .get();
       if (userDoc.exists) {
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
-        print('Fetched data: $data');
         final profile = Profile(
           fullName: data['fullName'],
           email: data['email'],
@@ -102,25 +109,24 @@ class AuthProvider with ChangeNotifier {
           profilePicture: data['profilePicture'],
         );
 
-        _userProvider.updateProfile(profile);
+        _profile = profile;
       }
 
       _isAuthenticated = true;
       _error = null;
-      notifyListeners(); // Notify listeners after updating the profile
+      notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
       _error = e.message;
       return false;
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
   void logout(BuildContext context) {
     _isAuthenticated = false;
-    _userProvider.resetProfile();
+    resetProfile();
     _auth.signOut().then((onValue) {
       Navigator.pushReplacement(
         context,
@@ -130,5 +136,76 @@ class AuthProvider with ChangeNotifier {
       );
     });
     notifyListeners();
+  }
+
+  void updateProfile(Profile profile) {
+    try {
+      _setLoading(true);
+      _profile = profile;
+      notifyListeners();
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
+
+  void updateProfileField<T>(String field, T value) {
+    try {
+      _setLoading(true);
+      switch (field) {
+        case 'fullName':
+          _profile = _profile.copyWith(fullName: value as String);
+          break;
+        case 'email':
+          _profile = _profile.copyWith(email: value as String);
+          break;
+        case 'dateOfBirth':
+          _profile = _profile.copyWith(dateOfBirth: value as DateTime);
+          break;
+        case 'gender':
+          _profile = _profile.copyWith(gender: value as String);
+          break;
+      }
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
+
+  void updateProfilePicture(String path) {
+    try {
+      _setLoading(true);
+      _profile = _profile.copyWith(profilePicture: path);
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _setLoading(false);
+    }
+    notifyListeners();
+  }
+
+  void resetProfile() {
+    _profile = Profile(
+      fullName: '',
+      dateOfBirth: DateTime.now(),
+      email: '',
+      gender: '',
+      profilePicture: '',
+    );
+    notifyListeners();
+  }
+
+  bool validateProfile() {
+    return _profile.fullName.isNotEmpty &&
+        _profile.email.isNotEmpty &&
+        _profile.email.contains('@') &&
+        _profile.gender.isNotEmpty;
   }
 }

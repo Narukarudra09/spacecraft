@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../models/kitchen.dart';
@@ -32,12 +33,12 @@ class SearchDialog extends StatelessWidget {
             child: TextField(
               textInputAction: TextInputAction.search,
               cursorColor: const Color.fromARGB(255, 64, 87, 82),
-              style: const TextStyle(color: Colors.white),
+              style: GoogleFonts.montserrat(color: Colors.white),
               autofocus: true,
               onChanged: provider.setSearchQuery,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search...',
-                hintStyle: TextStyle(color: Color(0xFFF5F5DC)),
+                hintStyle: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
                 border: InputBorder.none,
                 icon: Icon(Icons.search, color: Color(0xFFF5F5DC)),
               ),
@@ -54,7 +55,7 @@ class SearchDialog extends StatelessWidget {
                     ResponsiveUtils.isMobile(context) ? 12.0 : 16.0),
                 child: Text(
                   'Recent Searches',
-                  style: TextStyle(
+                  style: GoogleFonts.montserrat(
                     color: const Color(0xFFF5F5DC),
                     fontSize: ResponsiveUtils.isMobile(context) ? 16 : 18,
                     fontWeight: FontWeight.bold,

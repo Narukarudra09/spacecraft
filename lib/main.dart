@@ -6,7 +6,6 @@ import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/provider/kitchen_provider.dart';
 import 'package:spacecraft/provider/search_provider.dart';
 import 'package:spacecraft/provider/settings_provider.dart';
-import 'package:spacecraft/provider/user_provider.dart';
 
 import 'firebase_options.dart';
 import 'provider/room_provider.dart';
@@ -21,10 +20,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider(UserProvider())),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => RoomProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
         ChangeNotifierProvider(create: (_) => KitchenProvider()),
         ChangeNotifierProxyProvider2<RoomProvider, KitchenProvider,

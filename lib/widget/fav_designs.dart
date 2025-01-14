@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:spacecraft/widget/room_card.dart';
 
@@ -19,9 +20,10 @@ class FavDesigns extends StatelessWidget {
         if (roomProvider.favorites.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
-            child: const Text(
+            child: Text(
               "Room",
-              style: TextStyle(color: Color(0xFFF5F5DC), fontSize: 18),
+              style: GoogleFonts.montserrat(
+                  color: const Color(0xFFF5F5DC), fontSize: 18),
             ),
           ),
         Consumer<RoomProvider>(
@@ -39,11 +41,12 @@ class FavDesigns extends StatelessWidget {
           ),
         ),
         if (kitchenProvider.favorites.isNotEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
             child: Text(
               "Kitchen",
-              style: TextStyle(color: Color(0xFFF5F5DC), fontSize: 18),
+              style: GoogleFonts.montserrat(
+                  color: Color(0xFFF5F5DC), fontSize: 18),
             ),
           ),
         Consumer<KitchenProvider>(

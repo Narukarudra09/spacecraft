@@ -6,7 +6,6 @@ import 'package:spacecraft/screens/profile_screen.dart';
 
 import '../provider/settings_provider.dart';
 import '../provider/theme_provider.dart';
-import '../provider/user_provider.dart';
 import 'add_room_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -20,17 +19,17 @@ class SettingsScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                AuthProvider(UserProvider()).logout(context);
+                AuthProvider().logout(context);
               },
               icon: Icon(Icons.logout_outlined))
         ],
       ),
       body: ListView(
         children: [
-          Consumer<UserProvider>(
-            builder: (context, userProvider, _) => _ProfileCard(
-              name: userProvider.profile.fullName,
-              email: userProvider.profile.email,
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) => _ProfileCard(
+              name: authProvider.profile.fullName,
+              email: authProvider.profile.email,
             ),
           ),
           const Divider(),
@@ -164,9 +163,13 @@ class _ProfileCard extends StatelessWidget {
                 style: GoogleFonts.montserrat(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Color(0xFFF5F5DC)),
               ),
-              Text(email),
+              Text(
+                email,
+                style: GoogleFonts.montserrat(
+                    fontSize: 14, color: Color(0xFFF5F5DC)),
+              ),
             ],
           ),
         ],

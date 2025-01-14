@@ -11,7 +11,14 @@ class AllRoomDesigns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('room designs')),
+      appBar: AppBar(
+        title: const Text('room designs'),
+        titleTextStyle: GoogleFonts.montserrat(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 17, 24, 31),
+        ),
+      ),
       body: ListView(
         children: [
           Padding(

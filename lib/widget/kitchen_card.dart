@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../models/kitchen.dart';
@@ -17,18 +18,18 @@ class KitchenCard extends StatelessWidget {
         backgroundColor: const Color(0xFFF5F5DC),
         title: Text(
           'Delete ${kitchen.name}?',
-          style: const TextStyle(color: Color(0xFF333333)),
+          style: GoogleFonts.montserrat(color: Color(0xFF333333)),
         ),
-        content: const Text(
+        content: Text(
           'This action cannot be undone.',
-          style: TextStyle(color: Color(0xFF333333)),
+          style: GoogleFonts.montserrat(color: Color(0xFF333333)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text(
+            child: Text(
               'Cancel',
-              style: TextStyle(color: Color(0xFF333333)),
+              style: GoogleFonts.montserrat(color: Color(0xFF333333)),
             ),
           ),
           TextButton(
@@ -40,9 +41,9 @@ class KitchenCard extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: Colors.red,
             ),
-            child: const Text(
+            child: Text(
               'Delete',
-              style: TextStyle(color: Colors.red),
+              style: GoogleFonts.montserrat(color: Colors.red),
             ),
           ),
         ],
@@ -131,7 +132,7 @@ class KitchenCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             kitchen.name,
-                            style: const TextStyle(
+                            style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),
@@ -148,13 +149,14 @@ class KitchenCard extends StatelessWidget {
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.star, color: Colors.white, size: 14),
-                              SizedBox(width: 2),
+                              const Icon(Icons.star,
+                                  color: Colors.white, size: 14),
+                              const SizedBox(width: 2),
                               Text(
                                 '4.5',
-                                style: TextStyle(
+                                style: GoogleFonts.montserrat(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12,

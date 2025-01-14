@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../models/kitchen.dart';
 
@@ -12,6 +13,11 @@ class KitchenDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(kitchen.name),
+        titleTextStyle: GoogleFonts.montserrat(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 17, 24, 31),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -30,12 +36,20 @@ class KitchenDetailScreen extends StatelessWidget {
                 children: [
                   Text(
                     kitchen.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF5F5DC),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     kitchen.description,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF5F5DC),
+                    ),
                   ),
                   // Add more room details here
                 ],

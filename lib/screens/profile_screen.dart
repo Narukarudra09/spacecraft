@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../provider/user_provider.dart';
+import 'package:spacecraft/provider/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({super.key});
@@ -17,14 +17,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
-      builder: (context, userProvider, _) {
-        final profile = userProvider.profile;
-        print('Full Name: ${profile.fullName}');
-        print('Email: ${profile.email}');
-        print('Date of Birth: ${profile.dateOfBirth}');
-        print('Gender: ${profile.gender}');
-        print('Profile Picture: ${profile.profilePicture}');
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, _) {
+        final profile = authProvider.profile;
 
         if (profile == null) {
           return Center(child: CircularProgressIndicator());
@@ -94,11 +89,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    style: const TextStyle(color: Colors.white),
-                    initialValue: userProvider.profile.fullName,
+                    style: GoogleFonts.montserrat(color: Colors.white),
+                    initialValue: authProvider.profile.fullName,
                     decoration: InputDecoration(
                       labelText: 'Full Name',
-                      labelStyle: const TextStyle(color: Colors.white),
+                      labelStyle: GoogleFonts.montserrat(color: Colors.white),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 21, 27, 31)),
@@ -118,19 +113,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     validator: (value) => value?.isEmpty ?? true
                         ? 'Please enter your full name'
                         : null,
-                    onChanged: (value) => userProvider.updateProfile(
+                    onChanged: (value) => authProvider.updateProfile(
                       profile.copyWith(fullName: value),
                     ),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
-                    style: const TextStyle(color: Colors.white),
+                    style: GoogleFonts.montserrat(color: Colors.white),
                     initialValue: profile.email,
                     decoration: InputDecoration(
                       suffixIcon: const Icon(Icons.email_outlined),
                       suffixIconColor: const Color.fromARGB(255, 64, 87, 82),
                       labelText: 'Email',
-                      labelStyle: const TextStyle(color: Colors.white),
+                      labelStyle: GoogleFonts.montserrat(color: Colors.white),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 21, 27, 31)),
@@ -148,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         value?.isEmpty ?? !value!.contains('@')
                             ? 'Please enter a valid email'
                             : null,
-                    onChanged: (value) => userProvider.updateProfile(
+                    onChanged: (value) => authProvider.updateProfile(
                       profile.copyWith(email: value),
                     ),
                   ),
@@ -162,8 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     tileColor: const Color.fromARGB(255, 21, 27, 31),
                     title: const Text('Date of Birth'),
                     iconColor: const Color.fromARGB(255, 64, 87, 82),
-                    titleTextStyle: const TextStyle(color: Colors.white),
-                    subtitleTextStyle: const TextStyle(color: Colors.white),
+                    titleTextStyle: GoogleFonts.montserrat(color: Colors.white),
+                    subtitleTextStyle:
+                        GoogleFonts.montserrat(color: Colors.white),
                     subtitle: Text(
                         '${profile.dateOfBirth.year}-${profile.dateOfBirth.month}-${profile.dateOfBirth.day}'),
                     trailing: const Icon(Icons.calendar_today),
@@ -175,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         lastDate: DateTime.now(),
                       );
                       if (date != null) {
-                        userProvider.updateProfile(
+                        authProvider.updateProfile(
                           profile.copyWith(dateOfBirth: date),
                         );
                       }
@@ -189,10 +185,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     tileColor: const Color.fromARGB(255, 21, 27, 31),
-                    titleTextStyle: const TextStyle(
+                    titleTextStyle: GoogleFonts.montserrat(
                       color: Color(0xFFF5F5DC),
                     ),
-                    subtitleTextStyle: const TextStyle(color: Colors.white),
+                    subtitleTextStyle:
+                        GoogleFonts.montserrat(color: Colors.white),
                     title: const Text('Gender'),
                     subtitle: Text(profile.gender),
                     onTap: () {
@@ -202,20 +199,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           backgroundColor: Color(0xFFF5F5DC),
                           title: Text(
                             'Select Gender',
-                            style: TextStyle(color: Color(0xFF333333)),
+                            style: GoogleFonts.montserrat(
+                                color: Color(0xFF333333)),
                           ),
                           children: ['Male', 'Female', 'Other']
                               .map(
                                 (gender) => SimpleDialogOption(
                                   onPressed: () {
-                                    userProvider.updateProfile(
+                                    authProvider.updateProfile(
                                       profile.copyWith(gender: gender),
                                     );
                                     Navigator.pop(context);
                                   },
                                   child: Text(
                                     gender,
-                                    style: TextStyle(color: Color(0xFF333333)),
+                                    style: GoogleFonts.montserrat(
+                                        color: Color(0xFF333333)),
                                   ),
                                 ),
                               )

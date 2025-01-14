@@ -14,10 +14,11 @@ class RoomDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           room.name,
-          style: GoogleFonts.montserrat(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+        ),
+        titleTextStyle: GoogleFonts.montserrat(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 17, 24, 31),
         ),
       ),
       body: SingleChildScrollView(
@@ -37,12 +38,20 @@ class RoomDetailScreen extends StatelessWidget {
                 children: [
                   Text(
                     room.name,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF5F5DC),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     room.description,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF5F5DC),
+                    ),
                   ),
                   // Add more room details here
                 ],

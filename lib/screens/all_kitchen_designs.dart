@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/kitchen_provider.dart';
@@ -13,11 +14,11 @@ class AllKitchenDesigns extends StatelessWidget {
       appBar: AppBar(title: const Text('All kitchen designs')),
       body: ListView(
         children: [
-          const Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
-            child: const Text(
+            child: Text(
               "Kitchen",
-              style: TextStyle(
+              style: GoogleFonts.montserrat(
                   color: Color(0xFFF5F5DC),
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
