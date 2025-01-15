@@ -21,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
               onPressed: () {
                 AuthProvider().logout(context);
               },
-              icon: Icon(Icons.logout_outlined))
+              icon: const Icon(Icons.logout_outlined))
         ],
       ),
       body: ListView(
@@ -42,12 +42,14 @@ class SettingsScreen extends StatelessWidget {
               title: Text(
                 "Profile",
                 style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+                  color: const Color(0xFFF5F5DC),
                 ),
               ),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()));
               },
             ),
           ),
@@ -77,7 +79,7 @@ class SettingsScreen extends StatelessWidget {
               title: Text(
                 'Notifications',
                 style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+                  color: const Color(0xFFF5F5DC),
                 ),
               ),
               trailing: Switch(
@@ -96,7 +98,7 @@ class SettingsScreen extends StatelessWidget {
               title: Text(
                 'Toggle Admin Status',
                 style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC),
+                  color: const Color(0xFFF5F5DC),
                 ),
               ),
               trailing: Switch(
@@ -115,7 +117,7 @@ class SettingsScreen extends StatelessWidget {
                 style: GoogleFonts.montserrat(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 21, 27, 31),
+                  color: const Color.fromARGB(255, 21, 27, 31),
                 ),
               ),
             ),
@@ -124,12 +126,12 @@ class SettingsScreen extends StatelessWidget {
                 title: Text(
                   'Add New Room',
                   style: GoogleFonts.montserrat(
-                    color: Color(0xFFF5F5DC),
+                    color: const Color(0xFFF5F5DC),
                   ),
                 ),
                 onTap: () => Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return AddRoomDialog();
+                      return const AddRoomDialog();
                     }))),
           ],
         ],

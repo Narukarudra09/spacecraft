@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +15,7 @@ import '../screens/onboarding_screen.dart';
 class SplashServices {
   void isLogin(BuildContext context) async {
     final auth = firebase_auth.FirebaseAuth.instance;
+    final firestore = FirebaseFirestore.instance;
     final user = auth.currentUser;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -32,13 +32,9 @@ class SplashServices {
         },
       );
     } else if (user != null) {
-      // Fetch user information from Firestore
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+      DocumentSnapshot userDoc =
+          await firestore.collection('users').doc(user.uid).get();
       if (userDoc.exists) {
-        // Update AuthProvider with user data
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
         final profile = Profile(
@@ -60,7 +56,6 @@ class SplashServices {
           },
         );
       } else {
-        // Handle the case where the user document does not exist
         Timer(
           const Duration(seconds: 2),
           () {
