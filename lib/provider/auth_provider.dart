@@ -110,6 +110,7 @@ class AuthProvider with ChangeNotifier {
         );
 
         _profile = profile;
+        notifyListeners();
       }
 
       _isAuthenticated = true;

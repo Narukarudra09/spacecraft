@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const FlutterLogo(size: 100),
-            Lottie.asset("assets/logo.json")
+            Lottie.asset("assets/logo.json", repeat: false),
           ],
         ),
       ),

@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -22,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         final profile = authProvider.profile;
 
         if (profile == null) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         return Scaffold(
@@ -186,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     tileColor: const Color.fromARGB(255, 21, 27, 31),
                     titleTextStyle: GoogleFonts.montserrat(
-                      color: Color(0xFFF5F5DC),
+                      color: const Color(0xFFF5F5DC),
                     ),
                     subtitleTextStyle:
                         GoogleFonts.montserrat(color: Colors.white),
@@ -196,11 +196,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showDialog(
                         context: context,
                         builder: (ctx) => SimpleDialog(
-                          backgroundColor: Color(0xFFF5F5DC),
+                          backgroundColor: const Color(0xFFF5F5DC),
                           title: Text(
                             'Select Gender',
                             style: GoogleFonts.montserrat(
-                                color: Color(0xFF333333)),
+                                color: const Color(0xFF333333)),
                           ),
                           children: ['Male', 'Female', 'Other']
                               .map(
@@ -214,7 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Text(
                                     gender,
                                     style: GoogleFonts.montserrat(
-                                        color: Color(0xFF333333)),
+                                        color: const Color(0xFF333333)),
                                   ),
                                 ),
                               )
