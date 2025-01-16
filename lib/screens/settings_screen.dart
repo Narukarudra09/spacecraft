@@ -8,6 +8,7 @@ import 'package:spacecraft/screens/profile_screen.dart';
 
 import '../provider/settings_provider.dart';
 import '../provider/theme_provider.dart';
+import '../widget/profile_picture.dart';
 import 'add_room_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -144,13 +145,20 @@ class _ProfileCard extends StatelessWidget {
           Consumer<AuthProvider>(
             builder: (context, authProvider, _) {
               final profile = authProvider.profile;
-              return CircleAvatar(
-                radius: 60,
-                backgroundImage: profile.profilePicture.isEmpty
-                    ? const AssetImage('assets/profile.jpeg') as ImageProvider
-                    : FileImage(File(profile.profilePicture)),
-
-                //AssetImage('assets/profile.jpeg') as ImageProvider,
+              return GestureDetector(
+                onLongPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePicture()),
+                  );
+                },
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundImage: profile.profilePicture.isEmpty
+                      ? const AssetImage('assets/profile.jpeg') as ImageProvider
+                      : FileImage(File(profile.profilePicture)),
+                ),
               );
             },
           ),
