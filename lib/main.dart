@@ -53,11 +53,11 @@ class RoomDesignApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 64, 87, 82),
         appBarTheme: AppBarTheme(
           titleTextStyle: GoogleFonts.montserrat(
-            color: Color.fromARGB(255, 17, 24, 31),
+            color: const Color.fromARGB(255, 17, 24, 31),
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-          color: Color.fromARGB(255, 64, 87, 82),
+          color: const Color.fromARGB(255, 64, 87, 82),
           elevation: 0,
           scrolledUnderElevation: 0,
         ),
