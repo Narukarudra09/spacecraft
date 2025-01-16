@@ -36,7 +36,7 @@ class _SliderIndicatorState extends State<SliderIndicator> {
                         child: Image.asset(
                       item.toString(),
                       fit: BoxFit.cover,
-                      width: 1000,
+                      width: 500,
                       height: 400,
                     )),
                   ))
