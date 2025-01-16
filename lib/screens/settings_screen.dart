@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -139,9 +141,18 @@ class _ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const CircleAvatar(
-            radius: 60,
-            child: Icon(Icons.person, size: 60),
+          Consumer<AuthProvider>(
+            builder: (context, authProvider, _) {
+              final profile = authProvider.profile;
+              return CircleAvatar(
+                radius: 60,
+                backgroundImage: profile.profilePicture.isEmpty
+                    ? const AssetImage('assets/profile.jpeg') as ImageProvider
+                    : FileImage(File(profile.profilePicture)),
+
+                //AssetImage('assets/profile.jpeg') as ImageProvider,
+              );
+            },
           ),
           const SizedBox(height: 16),
           Column(

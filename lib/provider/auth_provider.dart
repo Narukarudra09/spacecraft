@@ -51,7 +51,7 @@ class AuthProvider with ChangeNotifier {
 
       // Create user with email and password
       UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -147,10 +147,20 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProfile(Profile profile) {
+  Future<void> updateProfile(Profile profile) async {
     try {
       _setLoading(true);
       _profile = profile;
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({
+        'fullName': profile.fullName,
+        'email': profile.email,
+        'dateOfBirth': profile.dateOfBirth.toIso8601String(),
+        'gender': profile.gender,
+        'profilePicture': profile.profilePicture,
+      });
       _saveUserDataToPreferences();
       notifyListeners();
       _error = null;
@@ -159,24 +169,46 @@ class AuthProvider with ChangeNotifier {
     } finally {
       _setLoading(false);
     }
-    notifyListeners();
   }
 
-  void updateProfileField<T>(String field, T value) {
+  Future<void> updateProfileField<T>(String field, T value) async {
     try {
       _setLoading(true);
       switch (field) {
         case 'fullName':
           _profile = _profile.copyWith(fullName: value as String);
+          await _firestore
+              .collection('users')
+              .doc(_auth.currentUser!.uid)
+              .update({'fullName': value});
           break;
         case 'email':
           _profile = _profile.copyWith(email: value as String);
+          await _firestore
+              .collection('users')
+              .doc(_auth.currentUser!.uid)
+              .update({'email': value});
           break;
         case 'dateOfBirth':
           _profile = _profile.copyWith(dateOfBirth: value as DateTime);
+          await _firestore
+              .collection('users')
+              .doc(_auth.currentUser!.uid)
+              .update({'dateOfBirth': (value as DateTime).toIso8601String()});
           break;
         case 'gender':
           _profile = _profile.copyWith(gender: value as String);
+          await _firestore
+              .collection('users')
+              .doc(_auth.currentUser!.uid)
+              .update({'gender': value});
+          break;
+        case 'profilePicture':
+          _profile = _profile.copyWith(profilePicture: value as String);
+          await _firestore
+              .collection('users')
+              .doc(_auth.currentUser!.uid)
+              .update({'profilePicture': value});
           break;
       }
       _saveUserDataToPreferences();
@@ -193,6 +225,10 @@ class AuthProvider with ChangeNotifier {
     try {
       _setLoading(true);
       _profile = _profile.copyWith(profilePicture: path);
+      _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({'profilePicture': path});
       _saveUserDataToPreferences();
       _error = null;
     } catch (e) {

@@ -30,7 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> pickImage(ImageSource source) async {
     await requestPermissions();
-    final pickedFile = await _picker.pickImage(source: source);
+    final XFile? pickedFile = await _picker.pickImage(source: source);
+    print(pickedFile);
     if (pickedFile != null) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.updateProfilePicture(pickedFile.path);
@@ -42,11 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Consumer<AuthProvider>(
       builder: (context, authProvider, _) {
         final profile = authProvider.profile;
-
         if (profile == null) {
           return const Center(child: CircularProgressIndicator());
         }
-
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
@@ -64,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           radius: 60,
                           backgroundColor: Colors.grey[200],
                           backgroundImage: profile.profilePicture.isEmpty
-                              ? const AssetImage('assets/profile_picture.png')
+                              ? const AssetImage('assets/profile.jpeg')
                                   as ImageProvider
                               : FileImage(File(profile.profilePicture)),
                         ),
