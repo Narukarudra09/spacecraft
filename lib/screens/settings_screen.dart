@@ -1,14 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
-import 'package:spacecraft/screens/profile_screen.dart';
 
 import '../provider/settings_provider.dart';
-import '../provider/theme_provider.dart';
-import '../widget/profile_picture.dart';
+import '../widget/setting_profile_card.dart';
 import 'add_room_dialog.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -28,42 +24,24 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
+        physics: NeverScrollableScrollPhysics(),
         children: [
           Consumer<AuthProvider>(
-            builder: (context, userProvider, _) => _ProfileCard(
+            builder: (context, userProvider, _) => SettingProfileCard(
               name: userProvider.profile.fullName,
-              email: userProvider.profile.email,
             ),
           ),
           const Divider(
-            color: Color.fromARGB(255, 17, 24, 31),
             thickness: 2,
-          ),
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, _) => ListTile(
-              leading: const Icon(
-                Icons.person,
-                color: Color(0xFFF5F5DC),
-              ),
-              title: Text(
-                "Profile",
-                style: GoogleFonts.montserrat(
-                  color: const Color(0xFFF5F5DC),
-                ),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
-              },
-            ),
+            color: Color.fromARGB(255, 17, 24, 31),
           ),
           Consumer<SettingsProvider>(
             builder: (context, settingsProvider, _) => ListTile(
               leading: const Icon(
                 Icons.notifications,
-                color: Color(0xFFF5F5DC),
+                color: Color(
+                  0xFFF5F5DC,
+                ),
               ),
               title: Text(
                 'Notifications',
@@ -123,62 +101,6 @@ class SettingsScreen extends StatelessWidget {
                       return const AddRoomDialog();
                     }))),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-class _ProfileCard extends StatelessWidget {
-  final String name;
-  final String email;
-
-  const _ProfileCard({required this.name, required this.email});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Consumer<AuthProvider>(
-            builder: (context, authProvider, _) {
-              final profile = authProvider.profile;
-              return GestureDetector(
-                onLongPress: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfilePicture()),
-                  );
-                },
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage: profile.profilePicture.isEmpty
-                      ? const AssetImage('assets/profile.jpeg') as ImageProvider
-                      : FileImage(File(profile.profilePicture)),
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                name,
-                style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFF5F5DC)),
-              ),
-              Text(
-                email,
-                style: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
-              ),
-            ],
-          ),
         ],
       ),
     );

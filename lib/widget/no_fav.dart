@@ -17,7 +17,7 @@ class NoFav extends StatelessWidget {
           Lottie.network(
               "https://lottie.host/fcd4330d-3034-4c98-b908-52630eac8d0f/vrY5OElx2C.json",
               width: 200,
-              height: 180),
+              height: 200),
           Text(
             "No favorite",
             style: GoogleFonts.montserrat(

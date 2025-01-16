@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:spacecraft/screens/profile_screen.dart';
 
 import '../widget/nav_bar.dart';
 import 'favorites_screen.dart';
 import 'home_screen.dart';
 import 'search_screen.dart';
-import 'settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     const SearchScreen(),
     const FavoritesScreen(),
-    const SettingsScreen(),
+    const ProfileScreen(),
   ];
 
   @override

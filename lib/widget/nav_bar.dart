@@ -96,7 +96,7 @@ class _NavBarItem extends StatelessWidget {
               Text(
                 title,
                 style: GoogleFonts.montserrat(
-                    color: Color(0xFFF5F5DC),
+                    color: const Color(0xFFF5F5DC),
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
