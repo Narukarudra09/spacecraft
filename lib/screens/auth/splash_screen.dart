@@ -15,7 +15,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     splashServices.isLogin(context);
   }
@@ -28,7 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const FlutterLogo(size: 100),
-            Lottie.asset("assets/logo.json", repeat: false),
+            Lottie.asset(
+              "assets/logo.json",
+            ),
           ],
         ),
       ),

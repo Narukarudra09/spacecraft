@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile.dart';
 import '../screens/auth/login_screen.dart';
@@ -28,6 +29,10 @@ class AuthProvider with ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
 
   String? get error => _error;
+
+  AuthProvider() {
+    _loadUserDataFromPreferences();
+  }
 
   void _setLoading(bool value) {
     _isLoading = value;
@@ -71,6 +76,7 @@ class AuthProvider with ChangeNotifier {
       _profile = profile;
       _isAuthenticated = true;
       _error = null;
+      _saveUserDataToPreferences();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
@@ -110,6 +116,7 @@ class AuthProvider with ChangeNotifier {
         );
 
         _profile = profile;
+        _saveUserDataToPreferences();
         notifyListeners();
       }
 
@@ -128,6 +135,7 @@ class AuthProvider with ChangeNotifier {
   void logout(BuildContext context) {
     _isAuthenticated = false;
     resetProfile();
+    _clearUserDataFromPreferences();
     _auth.signOut().then((onValue) {
       Navigator.pushReplacement(
         context,
@@ -143,6 +151,7 @@ class AuthProvider with ChangeNotifier {
     try {
       _setLoading(true);
       _profile = profile;
+      _saveUserDataToPreferences();
       notifyListeners();
       _error = null;
     } catch (e) {
@@ -170,6 +179,7 @@ class AuthProvider with ChangeNotifier {
           _profile = _profile.copyWith(gender: value as String);
           break;
       }
+      _saveUserDataToPreferences();
       _error = null;
     } catch (e) {
       _error = e.toString();
@@ -183,6 +193,7 @@ class AuthProvider with ChangeNotifier {
     try {
       _setLoading(true);
       _profile = _profile.copyWith(profilePicture: path);
+      _saveUserDataToPreferences();
       _error = null;
     } catch (e) {
       _error = e.toString();
@@ -208,5 +219,37 @@ class AuthProvider with ChangeNotifier {
         _profile.email.isNotEmpty &&
         _profile.email.contains('@') &&
         _profile.gender.isNotEmpty;
+  }
+
+  Future<void> _saveUserDataToPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('fullName', _profile.fullName);
+    await prefs.setString('email', _profile.email);
+    await prefs.setString(
+        'dateOfBirth', _profile.dateOfBirth.toIso8601String());
+    await prefs.setString('gender', _profile.gender);
+    await prefs.setString('profilePicture', _profile.profilePicture);
+  }
+
+  Future<void> _loadUserDataFromPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _profile = Profile(
+      fullName: prefs.getString('fullName') ?? '',
+      email: prefs.getString('email') ?? '',
+      dateOfBirth: DateTime.parse(
+          prefs.getString('dateOfBirth') ?? DateTime.now().toIso8601String()),
+      gender: prefs.getString('gender') ?? '',
+      profilePicture: prefs.getString('profilePicture') ?? '',
+    );
+    notifyListeners();
+  }
+
+  Future<void> _clearUserDataFromPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('fullName');
+    await prefs.remove('email');
+    await prefs.remove('dateOfBirth');
+    await prefs.remove('gender');
+    await prefs.remove('profilePicture');
   }
 }
