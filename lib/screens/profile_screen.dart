@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
 
@@ -14,6 +16,26 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final formKey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> requestPermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.camera,
+      Permission.storage,
+    ].request();
+
+    final info = statuses[Permission.camera].toString();
+    print(info);
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    await requestPermissions();
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      authProvider.updateProfilePicture(pickedFile.path);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       leading: const Icon(Icons.camera),
                                       title: const Text('Camera'),
                                       onTap: () {
-                                        //pickImage(context, ImageSource.camera);
+                                        pickImage(ImageSource.camera);
                                         Navigator.pop(context);
                                       },
                                     ),
@@ -68,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       leading: const Icon(Icons.photo_library),
                                       title: const Text('Gallery'),
                                       onTap: () {
-                                        //pickImage(context, ImageSource.gallery);
+                                        pickImage(ImageSource.gallery);
                                         Navigator.pop(context);
                                       },
                                     ),

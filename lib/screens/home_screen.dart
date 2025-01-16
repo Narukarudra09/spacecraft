@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                     Text(
                       "Room",
                       style: GoogleFonts.montserrat(
-                          color: Color(0xFFF5F5DC),
+                          color: const Color(0xFFF5F5DC),
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
@@ -44,10 +44,11 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AllRoomDesigns()));
+                                  builder: (context) =>
+                                      const AllRoomDesigns()));
                         },
-                        icon: Icon(Icons.arrow_circle_right_outlined),
-                        color: Color(0xFFF5F5DC))
+                        icon: const Icon(Icons.arrow_circle_right_outlined),
+                        color: const Color(0xFFF5F5DC))
                   ],
                 ),
               ),
@@ -81,7 +82,8 @@ class HomeScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AllKitchenDesigns()));
+                                builder: (context) =>
+                                    const AllKitchenDesigns()));
                       },
                       icon: const Icon(Icons.arrow_circle_right_outlined),
                       color: const Color(0xFFF5F5DC),

@@ -50,10 +50,10 @@ class NavBar extends StatelessWidget {
                 title: 'Favorite',
               ),
               _NavBarItem(
-                icon: Icons.settings,
+                icon: Icons.person,
                 isSelected: currentIndex == 3,
                 onTap: () => onTap(3),
-                title: 'Settings',
+                title: 'Profile',
               ),
             ],
           ),

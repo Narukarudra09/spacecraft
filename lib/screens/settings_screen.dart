@@ -32,7 +32,10 @@ class SettingsScreen extends StatelessWidget {
               email: userProvider.profile.email,
             ),
           ),
-          const Divider(),
+          const Divider(
+            color: Color.fromARGB(255, 17, 24, 31),
+            thickness: 2,
+          ),
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, _) => ListTile(
               leading: const Icon(
@@ -53,23 +56,6 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
           ),
-          /*Consumer<ThemeProvider>(
-            builder: (context, themeProvider, _) => ListTile(
-              leading: const Icon(
-                Icons.brightness_6,
-                color: Color(0xFFF5F5DC),
-              ),
-              title: const Text(
-                'Dark Mode',
-                style: TextStyle(color: Color.fromARGB(255, 21, 27, 31)),
-              ),
-              trailing: Switch(
-                activeColor: const Color(0xFFF5F5DC),
-                value: themeProvider.isDarkMode,
-                onChanged: (_) => themeProvider.toggleTheme(),
-              ),
-            ),
-          ),*/
           Consumer<SettingsProvider>(
             builder: (context, settingsProvider, _) => ListTile(
               leading: const Icon(
@@ -150,24 +136,28 @@ class _ProfileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const CircleAvatar(
-            radius: 30,
-            child: Icon(Icons.person, size: 30),
+            radius: 60,
+            child: Icon(Icons.person, size: 60),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(height: 16),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 name,
                 style: GoogleFonts.montserrat(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: Color(0xFFF5F5DC)),
               ),
-              Text(email),
+              Text(
+                email,
+                style: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
+              ),
             ],
           ),
         ],
