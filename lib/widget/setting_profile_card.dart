@@ -15,27 +15,27 @@ class SettingProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const UpdateProfileScreen()));
-      },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Profile setting',
-              style: GoogleFonts.montserrat(
-                  color: const Color(0xFFF5F5DC),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Row(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Profile setting',
+            style: GoogleFonts.montserrat(
+                color: const Color(0xFFF5F5DC),
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const UpdateProfileScreen()));
+            },
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -76,12 +76,14 @@ class SettingProfileCard extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => const UpdateProfileScreen()));
                   },
-                  icon: const Icon(Icons.arrow_forward_ios),
+                  icon: const Icon(Icons.arrow_forward_ios,
+                      color: Color(0xFFF5F5DC)),
                 ),
+                const SizedBox(width: 16),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

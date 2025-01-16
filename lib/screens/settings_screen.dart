@@ -16,11 +16,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
         actions: [
-          IconButton(
-              onPressed: () {
-                AuthProvider().logout(context);
-              },
-              icon: const Icon(Icons.logout_outlined))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.logout_outlined))
         ],
       ),
       body: ListView(
@@ -101,6 +97,20 @@ class SettingsScreen extends StatelessWidget {
                       return const AddRoomDialog();
                     }))),
           ],
+          const Divider(
+            thickness: 2,
+            color: Color.fromARGB(255, 17, 24, 31),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout, color: Color(0xFFF5F5DC)),
+            title: Text(
+              'Log out',
+              style: GoogleFonts.montserrat(
+                color: const Color(0xFFF5F5DC),
+              ),
+            ),
+            onTap: () => AuthProvider().logout(context),
+          ),
         ],
       ),
     );
