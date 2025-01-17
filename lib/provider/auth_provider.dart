@@ -36,7 +36,7 @@ class AuthProvider with ChangeNotifier {
   String? get error => _error;
 
   AuthProvider() {
-    _loadUserDataFromPreferences();
+    loadUserDataFromPreferences();
   }
 
   void _setLoading(bool value) {
@@ -281,15 +281,31 @@ class AuthProvider with ChangeNotifier {
     await prefs.setString('profilePicture', _profile.profilePicture);
   }
 
-  Future<void> _loadUserDataFromPreferences() async {
+  Future<void> loadUserDataFromPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? profilePicturePath = prefs.getString('profilePicture');
+    if (profilePicturePath != null && profilePicturePath.isNotEmpty) {
+      File file = File(profilePicturePath);
+      if (!await file.exists()) {
+        // Download the image from Firestore if it doesn't exist
+        final Reference storageReference =
+            FirebaseStorage.instance.ref().child(profilePicturePath);
+        final String url = await storageReference.getDownloadURL();
+        final http.Response response = await http.get(Uri.parse(url));
+        final Directory tempDir = await getApplicationDocumentsDirectory();
+        final String tempPath =
+            '${tempDir.path}/${profilePicturePath.split('/').last}';
+        await File(tempPath).writeAsBytes(response.bodyBytes);
+        profilePicturePath = tempPath;
+      }
+    }
     _profile = Profile(
       fullName: prefs.getString('fullName') ?? '',
       email: prefs.getString('email') ?? '',
       dateOfBirth: DateTime.parse(
           prefs.getString('dateOfBirth') ?? DateTime.now().toIso8601String()),
       gender: prefs.getString('gender') ?? '',
-      profilePicture: prefs.getString('profilePicture') ?? '',
+      profilePicture: profilePicturePath ?? '',
     );
     notifyListeners();
   }

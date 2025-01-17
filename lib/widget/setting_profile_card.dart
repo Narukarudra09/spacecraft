@@ -47,7 +47,7 @@ class SettingProfileCard extends StatelessWidget {
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Consumer<AuthProvider>(
                     builder: (context, authProvider, _) {
@@ -70,15 +70,13 @@ class SettingProfileCard extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(width: 16),
                   Text(
                     name,
                     style: GoogleFonts.montserrat(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFFF5F5DC)),
                   ),
-                  const SizedBox(width: 16),
                   IconButton(
                     onPressed: () {
                       Navigator.push(

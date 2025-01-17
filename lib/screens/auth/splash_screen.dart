@@ -26,9 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              "assets/logo.json",
-            ),
+            Lottie.asset("assets/logo.json", repeat: false),
           ],
         ),
       ),

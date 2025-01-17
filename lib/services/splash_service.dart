@@ -1,17 +1,20 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/screens/main_screen.dart';
 
 import '../screens/auth/login_screen.dart';
 import '../screens/onboarding_screen.dart';
 
 class SplashServices {
+  final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
+
   void isLogin(BuildContext context) async {
-    final auth = FirebaseAuth.instance;
-    final user = auth.currentUser;
+    final user = _auth.currentUser;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
@@ -27,6 +30,8 @@ class SplashServices {
         },
       );
     } else if (user != null) {
+      await Provider.of<AuthProvider>(context, listen: false)
+          .loadUserDataFromPreferences();
       Timer(
         const Duration(seconds: 2),
         () {
