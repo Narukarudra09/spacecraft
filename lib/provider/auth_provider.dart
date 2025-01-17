@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile.dart';
@@ -51,7 +56,7 @@ class AuthProvider with ChangeNotifier {
 
       // Create user with email and password
       UserCredential userCredential =
-      await _auth.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -151,10 +156,7 @@ class AuthProvider with ChangeNotifier {
     try {
       _setLoading(true);
       _profile = profile;
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .update({
+      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
         'fullName': profile.fullName,
         'email': profile.email,
         'dateOfBirth': profile.dateOfBirth.toIso8601String(),
@@ -221,11 +223,23 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateProfilePicture(String path) {
+  Future<void> updateProfilePicture(String path) async {
     try {
       _setLoading(true);
+      File file = File(path);
+      if (!await file.exists()) {
+        // Download the image from Firestore if it doesn't exist
+        final Reference storageReference =
+            FirebaseStorage.instance.ref().child(path);
+        final String url = await storageReference.getDownloadURL();
+        final http.Response response = await http.get(Uri.parse(url));
+        final Directory tempDir = await getApplicationDocumentsDirectory();
+        final String tempPath = '${tempDir.path}/${path.split('/').last}';
+        await File(tempPath).writeAsBytes(response.bodyBytes);
+        path = tempPath;
+      }
       _profile = _profile.copyWith(profilePicture: path);
-      _firestore
+      await _firestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .update({'profilePicture': path});

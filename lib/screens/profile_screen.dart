@@ -43,10 +43,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               email: userProvider.profile.email,
             ),
           ),
-          const Divider(
-            color: Color.fromARGB(255, 17, 24, 31),
-            thickness: 2,
-          ),
         ],
       ),
     );
