@@ -13,6 +13,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool _isPicturesSelected = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +45,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
               email: userProvider.profile.email,
             ),
           ),
+          /*Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 17, 24, 31),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPicturesSelected = true;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: _isPicturesSelected
+                                ? Colors.transparent
+                                : const Color.fromARGB(255, 64, 87, 82)
+                                    .withOpacity(0.5),
+                          ),
+                          child: Icon(
+                              _isPicturesSelected
+                                  ? Icons.table_chart
+                                  : Icons.table_chart_outlined,
+                              color: const Color(0xFFF5F5DC)),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPicturesSelected = false;
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: _isPicturesSelected
+                                ? const Color.fromARGB(255, 64, 87, 82)
+                                    .withOpacity(0.5)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(Icons.video_library,
+                              color: const Color(0xFFF5F5DC)),
+                        ),
+                      ),
+                    ]),
+              ))*/
         ],
       ),
     );

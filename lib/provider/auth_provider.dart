@@ -23,11 +23,21 @@ class AuthProvider with ChangeNotifier {
     profilePicture: '',
   );
 
+  Profile _tempProfile = Profile(
+    fullName: "",
+    dateOfBirth: DateTime.now(),
+    email: '',
+    gender: '',
+    profilePicture: '',
+  );
+
   bool _isLoading = false;
   bool _isAuthenticated = false;
   String? _error;
 
   Profile get profile => _profile;
+
+  Profile get tempProfile => _tempProfile;
 
   bool get isLoading => _isLoading;
 
@@ -79,6 +89,7 @@ class AuthProvider with ChangeNotifier {
       });
 
       _profile = profile;
+      _tempProfile = profile;
       _isAuthenticated = true;
       _error = null;
       _saveUserDataToPreferences();
@@ -121,6 +132,7 @@ class AuthProvider with ChangeNotifier {
         );
 
         _profile = profile;
+        _tempProfile = profile;
         _saveUserDataToPreferences();
         notifyListeners();
       }
@@ -152,67 +164,22 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateProfile(Profile profile) async {
-    try {
-      _setLoading(true);
-      _profile = profile;
-      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-        'fullName': profile.fullName,
-        'email': profile.email,
-        'dateOfBirth': profile.dateOfBirth.toIso8601String(),
-        'gender': profile.gender,
-        'profilePicture': profile.profilePicture,
-      });
-      _saveUserDataToPreferences();
-      notifyListeners();
-      _error = null;
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _setLoading(false);
-    }
+  void updateTempProfile(Profile profile) {
+    _tempProfile = profile;
+    notifyListeners();
   }
 
-  Future<void> updateProfileField<T>(String field, T value) async {
+  Future<void> saveProfileChanges() async {
     try {
       _setLoading(true);
-      switch (field) {
-        case 'fullName':
-          _profile = _profile.copyWith(fullName: value as String);
-          await _firestore
-              .collection('users')
-              .doc(_auth.currentUser!.uid)
-              .update({'fullName': value});
-          break;
-        case 'email':
-          _profile = _profile.copyWith(email: value as String);
-          await _firestore
-              .collection('users')
-              .doc(_auth.currentUser!.uid)
-              .update({'email': value});
-          break;
-        case 'dateOfBirth':
-          _profile = _profile.copyWith(dateOfBirth: value as DateTime);
-          await _firestore
-              .collection('users')
-              .doc(_auth.currentUser!.uid)
-              .update({'dateOfBirth': (value as DateTime).toIso8601String()});
-          break;
-        case 'gender':
-          _profile = _profile.copyWith(gender: value as String);
-          await _firestore
-              .collection('users')
-              .doc(_auth.currentUser!.uid)
-              .update({'gender': value});
-          break;
-        case 'profilePicture':
-          _profile = _profile.copyWith(profilePicture: value as String);
-          await _firestore
-              .collection('users')
-              .doc(_auth.currentUser!.uid)
-              .update({'profilePicture': value});
-          break;
-      }
+      _profile = _tempProfile;
+      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+        'fullName': _tempProfile.fullName,
+        'email': _tempProfile.email,
+        'dateOfBirth': _tempProfile.dateOfBirth.toIso8601String(),
+        'gender': _tempProfile.gender,
+        'profilePicture': _tempProfile.profilePicture,
+      });
       _saveUserDataToPreferences();
       _error = null;
     } catch (e) {
@@ -238,19 +205,14 @@ class AuthProvider with ChangeNotifier {
         await File(tempPath).writeAsBytes(response.bodyBytes);
         path = tempPath;
       }
-      _profile = _profile.copyWith(profilePicture: path);
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .update({'profilePicture': path});
-      _saveUserDataToPreferences();
+      _tempProfile = _tempProfile.copyWith(profilePicture: path);
+      notifyListeners();
       _error = null;
     } catch (e) {
       _error = e.toString();
     } finally {
       _setLoading(false);
     }
-    notifyListeners();
   }
 
   void resetProfile() {
@@ -261,14 +223,21 @@ class AuthProvider with ChangeNotifier {
       gender: '',
       profilePicture: '',
     );
+    _tempProfile = Profile(
+      fullName: '',
+      dateOfBirth: DateTime.now(),
+      email: '',
+      gender: '',
+      profilePicture: '',
+    );
     notifyListeners();
   }
 
   bool validateProfile() {
-    return _profile.fullName.isNotEmpty &&
-        _profile.email.isNotEmpty &&
-        _profile.email.contains('@') &&
-        _profile.gender.isNotEmpty;
+    return _tempProfile.fullName.isNotEmpty &&
+        _tempProfile.email.isNotEmpty &&
+        _tempProfile.email.contains('@') &&
+        _tempProfile.gender.isNotEmpty;
   }
 
   Future<void> _saveUserDataToPreferences() async {
@@ -307,6 +276,7 @@ class AuthProvider with ChangeNotifier {
       gender: prefs.getString('gender') ?? '',
       profilePicture: profilePicturePath ?? '',
     );
+    _tempProfile = _profile;
     notifyListeners();
   }
 
