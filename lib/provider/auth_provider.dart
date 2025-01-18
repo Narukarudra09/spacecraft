@@ -250,4 +250,17 @@ class AuthProvider with ChangeNotifier {
     await prefs.remove('profilePicture');
     print('User data cleared from preferences');
   }
+
+  Future<void> updateProfilePicture(String url) async {
+    try {
+      _setLoading(true);
+      _tempProfile = _tempProfile.copyWith(profilePicture: url);
+      notifyListeners();
+      _error = null;
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _setLoading(false);
+    }
+  }
 }

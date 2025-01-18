@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-//import 'package:image_picker/image_picker.dart';
 import '../models/room.dart';
 import '../provider/room_provider.dart';
 
@@ -22,16 +22,16 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
   File? _imageFile;
   String _designType = 'Room'; // Default value
 
-  /*Future<void> _pickImage(ImageSource source) async {
+  Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: source);
+    final XFile? pickedImage = await picker.pickImage(source: source);
 
     if (pickedImage != null) {
       setState(() {
         _imageFile = File(pickedImage.path);
       });
     }
-  }*/
+  }
 
   void _showImageSourceDialog() {
     showDialog(
@@ -46,7 +46,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               title: const Text('Camera'),
               onTap: () {
                 Navigator.pop(ctx);
-                //_pickImage(ImageSource.camera);
+                _pickImage(ImageSource.camera);
               },
             ),
             ListTile(
@@ -54,7 +54,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               title: const Text('Gallery'),
               onTap: () {
                 Navigator.pop(ctx);
-                //_pickImage(ImageSource.gallery);
+                _pickImage(ImageSource.gallery);
               },
             ),
           ],
@@ -208,7 +208,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                           borderRadius: BorderRadius.circular(8),
                           child: Image.file(
                             _imageFile!,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             width: double.infinity,
                           ),
                         )
@@ -249,10 +249,11 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
-                      style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                        Color.fromARGB(255, 17, 24, 31),
-                      )),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 17, 24, 31),
+                        ),
+                      ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (_imageFile == null) {
