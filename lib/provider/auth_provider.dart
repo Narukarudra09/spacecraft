@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile.dart';
@@ -92,7 +87,7 @@ class AuthProvider with ChangeNotifier {
       _tempProfile = profile;
       _isAuthenticated = true;
       _error = null;
-      _saveUserDataToPreferences();
+      await _saveUserDataToPreferences();
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
@@ -133,7 +128,7 @@ class AuthProvider with ChangeNotifier {
 
         _profile = profile;
         _tempProfile = profile;
-        _saveUserDataToPreferences();
+        await _saveUserDataToPreferences();
         notifyListeners();
       }
 
@@ -180,7 +175,7 @@ class AuthProvider with ChangeNotifier {
         'gender': _tempProfile.gender,
         'profilePicture': _tempProfile.profilePicture,
       });
-      _saveUserDataToPreferences();
+      await _saveUserDataToPreferences();
       _error = null;
     } catch (e) {
       _error = e.toString();
@@ -188,31 +183,6 @@ class AuthProvider with ChangeNotifier {
       _setLoading(false);
     }
     notifyListeners();
-  }
-
-  Future<void> updateProfilePicture(String path) async {
-    try {
-      _setLoading(true);
-      File file = File(path);
-      if (!await file.exists()) {
-        // Download the image from Firestore if it doesn't exist
-        final Reference storageReference =
-            FirebaseStorage.instance.ref().child(path);
-        final String url = await storageReference.getDownloadURL();
-        final http.Response response = await http.get(Uri.parse(url));
-        final Directory tempDir = await getApplicationDocumentsDirectory();
-        final String tempPath = '${tempDir.path}/${path.split('/').last}';
-        await File(tempPath).writeAsBytes(response.bodyBytes);
-        path = tempPath;
-      }
-      _tempProfile = _tempProfile.copyWith(profilePicture: path);
-      notifyListeners();
-      _error = null;
-    } catch (e) {
-      _error = e.toString();
-    } finally {
-      _setLoading(false);
-    }
   }
 
   void resetProfile() {
@@ -248,36 +218,27 @@ class AuthProvider with ChangeNotifier {
         'dateOfBirth', _profile.dateOfBirth.toIso8601String());
     await prefs.setString('gender', _profile.gender);
     await prefs.setString('profilePicture', _profile.profilePicture);
+    print('User data saved to preferences: $_profile');
   }
 
   Future<void> loadUserDataFromPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? profilePicturePath = prefs.getString('profilePicture');
-    if (profilePicturePath != null && profilePicturePath.isNotEmpty) {
-      File file = File(profilePicturePath);
-      if (!await file.exists()) {
-        // Download the image from Firestore if it doesn't exist
-        final Reference storageReference =
-            FirebaseStorage.instance.ref().child(profilePicturePath);
-        final String url = await storageReference.getDownloadURL();
-        final http.Response response = await http.get(Uri.parse(url));
-        final Directory tempDir = await getApplicationDocumentsDirectory();
-        final String tempPath =
-            '${tempDir.path}/${profilePicturePath.split('/').last}';
-        await File(tempPath).writeAsBytes(response.bodyBytes);
-        profilePicturePath = tempPath;
-      }
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _profile = Profile(
+        fullName: prefs.getString('fullName') ?? '',
+        email: prefs.getString('email') ?? '',
+        dateOfBirth: DateTime.parse(
+            prefs.getString('dateOfBirth') ?? DateTime.now().toIso8601String()),
+        gender: prefs.getString('gender') ?? '',
+        profilePicture: prefs.getString('profilePicture') ?? '',
+      );
+      _tempProfile = _profile;
+      print('User data loaded from preferences: $_profile');
+      notifyListeners();
+    } catch (e) {
+      _error = e.toString();
+      print('Error loading user data from preferences: $_error');
     }
-    _profile = Profile(
-      fullName: prefs.getString('fullName') ?? '',
-      email: prefs.getString('email') ?? '',
-      dateOfBirth: DateTime.parse(
-          prefs.getString('dateOfBirth') ?? DateTime.now().toIso8601String()),
-      gender: prefs.getString('gender') ?? '',
-      profilePicture: profilePicturePath ?? '',
-    );
-    _tempProfile = _profile;
-    notifyListeners();
   }
 
   Future<void> _clearUserDataFromPreferences() async {
@@ -287,5 +248,6 @@ class AuthProvider with ChangeNotifier {
     await prefs.remove('dateOfBirth');
     await prefs.remove('gender');
     await prefs.remove('profilePicture');
+    print('User data cleared from preferences');
   }
 }

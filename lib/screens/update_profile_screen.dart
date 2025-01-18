@@ -35,7 +35,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     print(pickedFile);
     if (pickedFile != null) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.updateProfilePicture(pickedFile.path);
+      authProvider.updateTempProfile(
+        authProvider.tempProfile.copyWith(profilePicture: pickedFile.path),
+      );
       setState(() {
         _hasChanges = true;
       });
