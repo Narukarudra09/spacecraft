@@ -34,9 +34,30 @@ class SettingProfileCard extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const UpdateProfileScreen()));
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const UpdateProfileScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+
+                    final tween = Tween(begin: begin, end: end);
+                    final curvedAnimation = CurvedAnimation(
+                      parent: animation,
+                      curve: curve,
+                    );
+
+                    return SlideTransition(
+                      position: tween.animate(curvedAnimation),
+                      child: child,
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 500),
+                ),
+              );
             },
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -77,17 +98,7 @@ class SettingProfileCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFFF5F5DC)),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const UpdateProfileScreen()));
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios,
-                        color: Color(0xFFF5F5DC)),
-                  ),
+                  const Icon(Icons.arrow_forward_ios, color: Color(0xFFF5F5DC)),
                 ],
               ),
             ),

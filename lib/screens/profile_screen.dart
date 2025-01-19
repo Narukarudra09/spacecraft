@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: child,
                     );
                   },
-                  transitionDuration: const Duration(milliseconds: 650),
+                  transitionDuration: const Duration(milliseconds: 500),
                 ),
               );
             },
