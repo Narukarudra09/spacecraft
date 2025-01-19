@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:spacecraft/screens/settings_screen.dart';
+import 'package:spacecraft/provider/search_provider.dart';
+import 'package:spacecraft/screens/settings/settings_screen.dart';
 
+import '../models/kitchen.dart';
+import '../models/room.dart';
 import '../provider/auth_provider.dart';
+import '../widget/kitchen_detailed_page.dart';
 import '../widget/profile_card.dart';
+import '../widget/room_detailed_page.dart';
 import 'add_room_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -102,26 +108,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              GridView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 6.0,
-                  mainAxisSpacing: 6.0,
+              Consumer<CombinedSearchProvider>(
+                builder: (context, provider, _) => GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: provider.filteredItems.length,
+                  itemBuilder: (context, index) {
+                    final item = provider.filteredItems[index];
+                    return GestureDetector(
+                      onTap: () {
+                        if (item is Room) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => RoomDetailScreen(room: item),
+                            ),
+                          );
+                        } else if (item is Kitchen) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  KitchenDetailScreen(kitchen: item),
+                            ),
+                          );
+                        }
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                item.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                item is Room ? 'Room' : 'Kitchen',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
                 ),
-                itemCount: _pictures.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(child: Text(_pictures[index])),
-                  );
-                },
-              )
+              ),
             ],
           );
         },

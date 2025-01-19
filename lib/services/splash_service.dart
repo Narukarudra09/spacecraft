@@ -8,7 +8,7 @@ import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/screens/main_screen.dart';
 
 import '../screens/auth/login_screen.dart';
-import '../screens/onboarding_screen.dart';
+import '../screens/auth/onboarding_screen.dart';
 
 class SplashServices {
   final firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;

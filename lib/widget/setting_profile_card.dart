@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:spacecraft/widget/profile_picture.dart';
 
 import '../provider/auth_provider.dart';
-import '../screens/update_profile_screen.dart';
+import '../screens/settings/update_profile_screen.dart';
 
 class SettingProfileCard extends StatelessWidget {
   final String name;

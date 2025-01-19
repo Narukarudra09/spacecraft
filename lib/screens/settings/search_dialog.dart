@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../models/kitchen.dart';
-import '../models/room.dart';
-import '../provider/search_provider.dart';
-import '../util/responsive_utils.dart';
-import '../widget/kitchen_card.dart';
-import '../widget/room_card.dart';
+import '../../models/kitchen.dart';
+import '../../models/room.dart';
+import '../../provider/search_provider.dart';
+import '../../util/responsive_utils.dart';
+import '../../widget/kitchen_card.dart';
+import '../../widget/room_card.dart';
 
 class SearchDialog extends StatelessWidget {
   const SearchDialog({super.key});

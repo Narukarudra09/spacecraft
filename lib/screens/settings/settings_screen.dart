@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/widget/general_settings.dart';
 
-import '../widget/setting_profile_card.dart';
+import '../../widget/setting_profile_card.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

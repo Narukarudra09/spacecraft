@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
     KitchenProvider kitchenProvider = Provider.of<KitchenProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Room Design')),
+      appBar: AppBar(title: const Text("Space Craft")),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

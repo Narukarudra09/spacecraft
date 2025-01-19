@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:spacecraft/screens/settings/feedback_screen.dart';
 
 import '../provider/auth_provider.dart';
 import '../provider/settings_provider.dart';
-import '../screens/about_screen.dart';
+import '../screens/settings/about_screen.dart';
 
 class GeneralSettings extends StatefulWidget {
   const GeneralSettings({super.key});
@@ -37,7 +38,8 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                 Consumer<SettingsProvider>(
                   builder: (context, settingsProvider, _) => ListTile(
                     tileColor: const Color.fromARGB(255, 17, 24, 31),
-                    shape: const StadiumBorder(),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                     leading: const Icon(
                       Icons.notifications,
                       color: Color(
@@ -60,7 +62,8 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                 ListTile(
                   leading: const Icon(Icons.person, color: Color(0xFFF5F5DC)),
                   tileColor: const Color.fromARGB(255, 17, 24, 31),
-                  shape: const StadiumBorder(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   title: Text(
                     'About us',
                     style: GoogleFonts.montserrat(
@@ -80,7 +83,8 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                   leading: const Icon(Icons.feedback_rounded,
                       color: Color(0xFFF5F5DC)),
                   tileColor: const Color.fromARGB(255, 17, 24, 31),
-                  shape: const StadiumBorder(),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
                   title: Text(
                     'Feedback',
                     style: GoogleFonts.montserrat(
@@ -94,7 +98,7 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AboutScreen())),
+                          builder: (context) => const FeedbackScreen())),
                 ),
               ]),
         ),
@@ -107,7 +111,8 @@ class _GeneralSettingsState extends State<GeneralSettings> {
           child: ListTile(
             leading: const Icon(Icons.logout, color: Color(0xFFF5F5DC)),
             tileColor: const Color.fromARGB(255, 17, 24, 31),
-            shape: const StadiumBorder(),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text(
               'Log out',
               style: GoogleFonts.montserrat(

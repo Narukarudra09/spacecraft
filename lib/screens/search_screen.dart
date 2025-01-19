@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:spacecraft/screens/search_dialog.dart';
+import 'package:spacecraft/screens/settings/search_dialog.dart';
 
 import '../models/kitchen.dart';
 import '../models/room.dart';

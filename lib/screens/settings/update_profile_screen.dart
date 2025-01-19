@@ -347,14 +347,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           }
                         },
                         style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
                           backgroundColor:
                               const Color.fromARGB(255, 21, 27, 31),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
                         child: const Text('Save Changes',
-                            style: TextStyle(color: Colors.white)),
+                            style: TextStyle(color: Color(0xFFF5F5DC))),
                       ),
                     ),
                   ],
