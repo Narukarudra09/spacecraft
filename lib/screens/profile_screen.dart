@@ -14,9 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _isPicturesSelected = true;
   List<String> _pictures = [];
-  List<String> _reels = [];
 
   @override
   void initState() {
@@ -32,7 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Simulate fetched content
     setState(() {
       _pictures = List.generate(10, (index) => 'Picture $index');
-      _reels = List.generate(5, (index) => 'Reel $index');
     });
   }
 
@@ -87,11 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isPicturesSelected = true;
-                          });
-                        },
+                        onTap: () {},
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),

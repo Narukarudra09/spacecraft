@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile.dart';
@@ -55,6 +59,7 @@ class AuthProvider with ChangeNotifier {
     required String password,
     required DateTime dateOfBirth,
     required String gender,
+    required String profilePicture,
   }) async {
     try {
       _setLoading(true);
@@ -72,7 +77,7 @@ class AuthProvider with ChangeNotifier {
         email: email,
         dateOfBirth: dateOfBirth,
         gender: gender,
-        profilePicture: '',
+        profilePicture: profilePicture,
       );
 
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
@@ -80,7 +85,7 @@ class AuthProvider with ChangeNotifier {
         'email': email,
         'dateOfBirth': dateOfBirth.toIso8601String(),
         'gender': gender,
-        'profilePicture': '',
+        'profilePicture': profilePicture,
       });
 
       _profile = profile;
@@ -149,11 +154,10 @@ class AuthProvider with ChangeNotifier {
     resetProfile();
     _clearUserDataFromPreferences();
     _auth.signOut().then((onValue) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (Route<dynamic> route) => false,
       );
     });
     notifyListeners();
@@ -224,20 +228,59 @@ class AuthProvider with ChangeNotifier {
   Future<void> loadUserDataFromPreferences() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      _profile = Profile(
-        fullName: prefs.getString('fullName') ?? '',
-        email: prefs.getString('email') ?? '',
-        dateOfBirth: DateTime.parse(
-            prefs.getString('dateOfBirth') ?? DateTime.now().toIso8601String()),
-        gender: prefs.getString('gender') ?? '',
-        profilePicture: prefs.getString('profilePicture') ?? '',
-      );
-      _tempProfile = _profile;
-      print('User data loaded from preferences: $_profile');
+      String? fullName = prefs.getString('fullName');
+      String? email = prefs.getString('email');
+      String? dateOfBirth = prefs.getString('dateOfBirth');
+      String? gender = prefs.getString('gender');
+      String? profilePicture = prefs.getString('profilePicture');
+
+      if (fullName != null &&
+          email != null &&
+          dateOfBirth != null &&
+          gender != null) {
+        _profile = Profile(
+          fullName: fullName,
+          email: email,
+          dateOfBirth: DateTime.parse(dateOfBirth),
+          gender: gender,
+          profilePicture: profilePicture ?? '',
+        );
+        _tempProfile = _profile;
+        print('User data loaded from preferences: $_profile');
+      } else {
+        // If data is not found in preferences, try to fetch from Firestore
+        await _fetchUserDataFromFirestore();
+      }
       notifyListeners();
     } catch (e) {
       _error = e.toString();
       print('Error loading user data from preferences: $_error');
+    }
+  }
+
+  Future<void> _fetchUserDataFromFirestore() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
+          _profile = Profile(
+            fullName: data['fullName'],
+            email: data['email'],
+            dateOfBirth: DateTime.parse(data['dateOfBirth']),
+            gender: data['gender'],
+            profilePicture: data['profilePicture'],
+          );
+          _tempProfile = _profile;
+          await _saveUserDataToPreferences();
+          print('User data fetched from Firestore: $_profile');
+        }
+      }
+    } catch (e) {
+      _error = e.toString();
+      print('Error fetching user data from Firestore: $_error');
     }
   }
 
@@ -261,6 +304,27 @@ class AuthProvider with ChangeNotifier {
       _error = e.toString();
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<void> saveImageToLocalStorage(File image) async {
+    try {
+      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      final String appDocPath = appDocDir.path;
+      final String fileName = path.basename(image.path);
+      final File localFile = File(path.join(appDocPath, fileName));
+
+      await localFile.writeAsBytes(await image.readAsBytes());
+
+      if (await localFile.exists()) {
+        _tempProfile = _tempProfile.copyWith(profilePicture: localFile.path);
+        notifyListeners();
+        _error = null;
+      } else {
+        _error = 'File not found';
+      }
+    } catch (e) {
+      _error = e.toString();
     }
   }
 }

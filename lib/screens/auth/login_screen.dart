@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
@@ -18,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late bool _isLoading = false;
   DateTime? _selectedDate;
   String _selectedGender = 'Male';
+  File? _image;
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -61,17 +66,18 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         // Handle sign up
         final fullName = _nameController.text;
-
         final email = _emailController.text;
         final password = _passwordController.text;
         final dateOfBirth = _selectedDate!;
         final gender = _selectedGender;
+        final profilePicture = _image != null ? _image!.path : '';
         final success = await context.read<AuthProvider>().signUp(
               fullName: fullName,
               email: email,
               password: password,
               dateOfBirth: dateOfBirth,
               gender: gender,
+              profilePicture: profilePicture,
             );
         if (success) {
           Navigator.pushReplacement(context,
@@ -102,6 +108,18 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final File file = File(image.path);
+      await context.read<AuthProvider>().saveImageToLocalStorage(file);
+      setState(() {
+        _image = file;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,29 +142,70 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
-
+                  if (!_isLogin) ...[
+                    // Profile Picture
+                    Center(
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                _image != null ? FileImage(_image!) : null,
+                            child: _image == null
+                                ? const Icon(
+                                    Icons.person,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  )
+                                : null,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              onPressed: _pickImage,
+                              icon: const Icon(Icons.camera_alt),
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   if (!_isLogin) ...[
                     // Name field
                     TextFormField(
+                      style: GoogleFonts.montserrat(
+                        color: const Color(0xFFF5F5DC),
+                      ),
                       controller: _nameController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Full Name',
-                        labelStyle:
-                            TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                        prefixIcon: Icon(Icons.person),
-                        prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          color: Color(0xFFF5F5DC),
+                        ),
+                        labelStyle: GoogleFonts.montserrat(
+                          color: const Color(0xFFF5F5DC),
+                        ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 21, 27, 31),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -160,26 +219,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Email field
                   TextFormField(
+                    style: GoogleFonts.montserrat(
+                      color: const Color(0xFFF5F5DC),
+                    ),
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle:
-                          TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                      prefixIcon: Icon(Icons.email),
-                      prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                      prefixIcon: const Icon(
+                        Icons.email_rounded,
+                        color: Color(0xFFF5F5DC),
+                      ),
+                      labelStyle: GoogleFonts.montserrat(
+                        color: const Color(0xFFF5F5DC),
+                      ),
                       border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 21, 27, 31),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -198,30 +268,40 @@ class _LoginScreenState extends State<LoginScreen> {
                     InkWell(
                       onTap: () => _selectDate(context),
                       child: InputDecorator(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Date of Birth',
-                          labelStyle:
-                              TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                          prefixIcon: Icon(Icons.calendar_today),
-                          prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                          labelStyle: GoogleFonts.montserrat(
+                            color: const Color(0xFFF5F5DC),
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.date_range,
+                            color: Color(0xFFF5F5DC),
+                          ),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 17, 24, 31)),
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 21, 27, 31)),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 17, 24, 31)),
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 21, 27, 31)),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color.fromARGB(255, 17, 24, 31),
-                                width: 2),
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 21, 27, 31)),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
+                          filled: true,
+                          fillColor: const Color.fromARGB(255, 21, 27, 31),
                         ),
                         child: Text(
                           _selectedDate == null
                               ? 'Select Date'
                               : DateFormat('MM/dd/yyyy').format(_selectedDate!),
+                          style: GoogleFonts.montserrat(
+                            color: const Color(0xFFF5F5DC),
+                          ),
                         ),
                       ),
                     ),
@@ -229,25 +309,39 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // Gender
                     DropdownButtonFormField<String>(
+                      iconEnabledColor: const Color(0xFFF5F5DC),
+                      iconDisabledColor: const Color(0xFFF5F5DC),
+                      dropdownColor: const Color.fromARGB(255, 21, 27, 31),
                       value: _selectedGender,
-                      decoration: const InputDecoration(
+                      style: GoogleFonts.montserrat(
+                        color: const Color(0xFFF5F5DC),
+                      ),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          color: Color(0xFFF5F5DC),
+                        ),
                         labelText: 'Gender',
-                        labelStyle:
-                            TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                        prefixIcon: Icon(Icons.people),
-                        prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                        labelStyle: GoogleFonts.montserrat(
+                          color: const Color(0xFFF5F5DC),
+                        ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 21, 27, 31),
                       ),
                       items: ['Male', 'Female', 'Other']
                           .map((gender) => DropdownMenuItem(
@@ -266,26 +360,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Password field
                   TextFormField(
+                    style: GoogleFonts.montserrat(
+                      color: const Color(0xFFF5F5DC),
+                    ),
                     controller: _passwordController,
                     obscureText: true,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        color: Color(0xFFF5F5DC),
+                      ),
                       labelText: 'Password',
-                      labelStyle:
-                          TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                      prefixIcon: Icon(Icons.lock),
-                      prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                      labelStyle: GoogleFonts.montserrat(
+                        color: const Color(0xFFF5F5DC),
+                      ),
                       border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                        borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 21, 27, 31)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 21, 27, 31),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -298,26 +403,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   if (!_isLogin)
                     TextFormField(
+                      style: GoogleFonts.montserrat(
+                        color: const Color(0xFFF5F5DC),
+                      ),
                       controller: _confirmPasswordController,
                       obscureText: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        labelStyle:
-                            TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
-                        prefixIcon: Icon(Icons.lock),
-                        prefixIconColor: Color.fromARGB(255, 42, 36, 48),
+                        labelStyle: GoogleFonts.montserrat(
+                          color: const Color(0xFFF5F5DC),
+                        ),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: Color(0xFFF5F5DC),
+                        ),
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31)),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 21, 27, 31)),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 21, 27, 31),
                       ),
                       validator: (value) {
                         if (value != _passwordController.text) {
@@ -345,7 +461,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : Text(_isLogin ? 'Login' : 'Sign Up'),
+                        : Text(
+                            _isLogin ? 'Login' : 'Sign Up',
+                            style: GoogleFonts.montserrat(
+                              color: const Color(0xFFF5F5DC),
+                            ),
+                          ),
                   ),
                   const SizedBox(height: 16),
 
