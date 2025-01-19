@@ -15,21 +15,21 @@ class RoomCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFFF5F5DC),
+        backgroundColor: const Color.fromARGB(255, 21, 27, 31),
         title: Text(
           'Delete ${room.name}?',
-          style: GoogleFonts.montserrat(color: Color(0xFF333333)),
+          style: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
         ),
         content: Text(
           'This action cannot be undone.',
-          style: GoogleFonts.montserrat(color: Color(0xFF333333)),
+          style: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
             child: Text(
               'Cancel',
-              style: GoogleFonts.montserrat(color: Color(0xFF333333)),
+              style: GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
             ),
           ),
           TextButton(
@@ -111,7 +111,7 @@ class RoomCard extends StatelessWidget {
                             IconButton(
                               icon: const Icon(
                                 Icons.delete_outline,
-                                color: Colors.white,
+                                color: Color(0xFFF5F5DC),
                                 size: 20,
                               ),
                               onPressed: () => _showDeleteConfirmation(context),

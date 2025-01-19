@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:spacecraft/provider/search_provider.dart';
+import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/screens/settings/settings_screen.dart';
 
 import '../models/kitchen.dart';
 import '../models/room.dart';
-import '../provider/auth_provider.dart';
+import '../provider/search_provider.dart';
 import '../widget/kitchen_detailed_page.dart';
 import '../widget/profile_card.dart';
 import '../widget/room_detailed_page.dart';
@@ -20,8 +20,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  List<String> _pictures = [];
-
   @override
   void initState() {
     super.initState();
@@ -34,9 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     // Simulate fetched content
-    setState(() {
-      _pictures = List.generate(10, (index) => 'Picture $index');
-    });
   }
 
   @override
@@ -49,8 +44,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsScreen(),
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const SettingsScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+
+                    final tween = Tween(begin: begin, end: end);
+                    final curvedAnimation = CurvedAnimation(
+                      parent: animation,
+                      curve: curve,
+                    );
+
+                    return SlideTransition(
+                      position: tween.animate(curvedAnimation),
+                      child: child,
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 650),
                 ),
               );
             },
@@ -111,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Consumer<CombinedSearchProvider>(
                 builder: (context, provider, _) => GridView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: provider.filteredItems.length,
                   itemBuilder: (context, index) {
                     final item = provider.filteredItems[index];
@@ -135,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 8),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [

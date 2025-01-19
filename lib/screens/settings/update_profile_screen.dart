@@ -50,13 +50,28 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Discard changes?'),
-            content: const Text(
-                'You have unsaved changes. Do you want to discard them?'),
+            backgroundColor: Color.fromARGB(255, 21, 27, 31),
+            title: Text(
+              'Discard changes?',
+              style: GoogleFonts.montserrat(
+                color: const Color(0xFFF5F5DC),
+              ),
+            ),
+            content: Text(
+              'You have unsaved changes. Do you want to discard them?',
+              style: GoogleFonts.montserrat(
+                color: const Color(0xFFF5F5DC),
+              ),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
+                child: Text(
+                  'No',
+                  style: GoogleFonts.montserrat(
+                    color: const Color(0xFFF5F5DC),
+                  ),
+                ),
               ),
               TextButton(
                 onPressed: () {
@@ -68,7 +83,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   });
                   Navigator.of(context).pop(true);
                 },
-                child: const Text('Yes'),
+                child: Text(
+                  'Yes',
+                  style: GoogleFonts.montserrat(
+                    color: const Color(0xFFF5F5DC),
+                  ),
+                ),
               ),
             ],
           );
@@ -145,8 +165,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 radius: 20,
                                 backgroundColor:
                                     Color.fromARGB(255, 21, 27, 31),
-                                child:
-                                    Icon(Icons.camera_alt, color: Colors.white),
+                                child: Icon(Icons.camera_alt,
+                                    color: Color(0xFFF5F5DC)),
                               ),
                             ),
                           ),
@@ -278,7 +298,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       shape: OutlineInputBorder(
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 21, 27, 31)),
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       leading: const Icon(
                         Icons.person,
@@ -296,11 +316,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         showDialog(
                           context: context,
                           builder: (ctx) => SimpleDialog(
-                            backgroundColor: const Color(0xFFF5F5DC),
+                            backgroundColor:
+                                const Color.fromARGB(255, 21, 27, 31),
                             title: Text(
                               'Select Gender',
                               style: GoogleFonts.montserrat(
-                                  color: const Color(0xFF333333),
+                                  color: const Color(0xFFF5F5DC),
                                   fontWeight: FontWeight.bold),
                             ),
                             children: ['Male', 'Female', 'Other']
@@ -318,7 +339,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     child: Text(
                                       gender,
                                       style: GoogleFonts.montserrat(
-                                          color: const Color(0xFF333333)),
+                                        color: const Color(0xFFF5F5DC),
+                                      ),
                                     ),
                                   ),
                                 )

@@ -108,12 +108,13 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: source);
     if (image != null) {
       final File file = File(image.path);
-      await context.read<AuthProvider>().saveImageToLocalStorage(file);
+      await Provider.of<AuthProvider>(context, listen: false)
+          .saveImageToLocalStorage(file);
       setState(() {
         _image = file;
       });
@@ -149,23 +150,48 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           CircleAvatar(
                             radius: 50,
-                            backgroundImage:
-                                _image != null ? FileImage(_image!) : null,
-                            child: _image == null
-                                ? const Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.grey,
-                                  )
-                                : null,
+                            backgroundImage: _image != null
+                                ? FileImage(_image!)
+                                : const AssetImage('assets/profile.jpeg'),
                           ),
                           Positioned(
                             bottom: 0,
                             right: 0,
-                            child: IconButton(
-                              onPressed: _pickImage,
-                              icon: const Icon(Icons.camera_alt),
-                              color: Colors.blue,
+                            child: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        leading: const Icon(Icons.camera),
+                                        title: const Text('Camera'),
+                                        onTap: () {
+                                          _pickImage(ImageSource.camera);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading:
+                                            const Icon(Icons.photo_library),
+                                        title: const Text('Gallery'),
+                                        onTap: () {
+                                          _pickImage(ImageSource.gallery);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: const CircleAvatar(
+                                radius: 20,
+                                backgroundColor:
+                                    Color.fromARGB(255, 21, 27, 31),
+                                child: Icon(Icons.camera_alt,
+                                    color: Color(0xFFF5F5DC)),
+                              ),
                             ),
                           ),
                         ],
@@ -470,35 +496,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  const Row(
+                  Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                           child:
                               Divider(color: Color.fromARGB(255, 17, 24, 31))),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Text(
                           'OR',
-                          style:
-                              TextStyle(color: Color.fromARGB(255, 17, 24, 31)),
+                          style: GoogleFonts.montserrat(
+                            color: const Color(0xFFF5F5DC),
+                          ),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                           child:
                               Divider(color: Color.fromARGB(255, 17, 24, 31))),
                     ],
                   ),
-                  const SizedBox(height: 16),
-
-                  /*OutlinedButton.icon(
-                    //onPressed: _isLoading ? null : _handleGoogleSignIn,
-                    icon: Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg',
-                      height: 24,
-                    ),
-                    label: Text('Continue with Google'), onPressed: () {},
-                  ),*/
-
                   TextButton(
                     onPressed: () {
                       setState(() => _isLogin = !_isLogin);
