@@ -91,7 +91,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           }
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Profile'),
+              title: const Text('Edit Profile'),
             ),
             body: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -159,6 +159,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       initialValue: profile.fullName,
                       decoration: InputDecoration(
                         labelText: 'Full Name',
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          color: Color(0xFFF5F5DC),
+                        ),
                         labelStyle: GoogleFonts.montserrat(
                             color: const Color(0xFFF5F5DC),
                             fontWeight: FontWeight.bold),
@@ -197,8 +201,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       style: GoogleFonts.montserrat(color: Colors.white),
                       initialValue: profile.email,
                       decoration: InputDecoration(
-                        suffixIcon: const Icon(Icons.email_outlined),
-                        suffixIconColor: const Color.fromARGB(255, 64, 87, 82),
+                        prefixIcon: const Icon(Icons.email_outlined,
+                            color: Color(0xFFF5F5DC)),
                         labelText: 'Email',
                         labelStyle: GoogleFonts.montserrat(
                             color: const Color(0xFFF5F5DC),
@@ -241,9 +245,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             color: Color.fromARGB(255, 21, 27, 31)),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
+                      leading: const Icon(Icons.calendar_today),
                       tileColor: const Color.fromARGB(255, 21, 27, 31),
                       title: const Text('Date of Birth'),
-                      iconColor: const Color.fromARGB(255, 64, 87, 82),
+                      iconColor: const Color(0xFFF5F5DC),
                       titleTextStyle: GoogleFonts.montserrat(
                           color: const Color(0xFFF5F5DC),
                           fontWeight: FontWeight.bold),
@@ -251,7 +256,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           GoogleFonts.montserrat(color: Colors.white),
                       subtitle: Text(
                           '${profile.dateOfBirth.year}-${profile.dateOfBirth.month}-${profile.dateOfBirth.day}'),
-                      trailing: const Icon(Icons.calendar_today),
                       onTap: () async {
                         final date = await showDatePicker(
                           context: context,
@@ -275,6 +279,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         borderSide: const BorderSide(
                             color: Color.fromARGB(255, 21, 27, 31)),
                         borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      leading: const Icon(
+                        Icons.person,
+                        color: Color(0xFFF5F5DC),
                       ),
                       tileColor: const Color.fromARGB(255, 21, 27, 31),
                       titleTextStyle: GoogleFonts.montserrat(
@@ -332,6 +340,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
+                                  backgroundColor: Colors.green,
                                   content:
                                       Text('Profile updated successfully')),
                             );

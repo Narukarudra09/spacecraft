@@ -57,9 +57,6 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                     ),
                   ),
                 ),
-                /*const SizedBox(
-                height: 8,
-              ),*/
                 ListTile(
                   leading: const Icon(Icons.person, color: Color(0xFFF5F5DC)),
                   tileColor: const Color.fromARGB(255, 17, 24, 31),
@@ -70,57 +67,35 @@ class _GeneralSettingsState extends State<GeneralSettings> {
                       color: const Color(0xFFF5F5DC),
                     ),
                   ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFFF5F5DC),
+                  ),
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const AboutScreen())),
                 ),
-                /*Consumer<SettingsProvider>(
-                  builder: (context, settingsProvider, _) => ListTile(
-                    leading: const Icon(
-                      Icons.admin_panel_settings,
-                      color: Color(0xFFF5F5DC),
-                    ),
-                    title: Text(
-                      'Toggle Admin Status',
-                      style: GoogleFonts.montserrat(
-                        color: const Color(0xFFF5F5DC),
-                      ),
-                    ),
-                    trailing: Switch(
-                      activeColor: const Color(0xFFF5F5DC),
-                      value: settingsProvider.isAdmin,
-                      onChanged: (_) => settingsProvider.toggleAdmin(),
+                ListTile(
+                  leading: const Icon(Icons.feedback_rounded,
+                      color: Color(0xFFF5F5DC)),
+                  tileColor: const Color.fromARGB(255, 17, 24, 31),
+                  shape: const StadiumBorder(),
+                  title: Text(
+                    'Feedback',
+                    style: GoogleFonts.montserrat(
+                      color: const Color(0xFFF5F5DC),
                     ),
                   ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFFF5F5DC),
+                  ),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutScreen())),
                 ),
-                if (context.watch<SettingsProvider>().isAdmin) ...[
-                  const Divider(thickness: 2),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Admin Panel',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 21, 27, 31),
-                      ),
-                    ),
-                  ),
-                  ListTile(
-                      leading:
-                          const Icon(Icons.add_box, color: Color(0xFFF5F5DC)),
-                      title: Text(
-                        'Add New Room',
-                        style: GoogleFonts.montserrat(
-                          color: const Color(0xFFF5F5DC),
-                        ),
-                      ),
-                      onTap: () => Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const AddRoomDialog();
-                          }))),
-                ],*/
               ]),
         ),
         const Divider(

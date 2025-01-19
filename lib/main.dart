@@ -62,9 +62,9 @@ class RoomDesignApp extends StatelessWidget {
           scrolledUnderElevation: 0,
         ),
         textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Color.fromARGB(255, 17, 24, 31),
-          selectionColor: Color.fromARGB(255, 17, 24, 31),
-          selectionHandleColor: Color.fromARGB(255, 17, 24, 31),
+          cursorColor: Color.fromARGB(255, 64, 87, 82),
+          selectionColor: Color(0xFFF5F5DC),
+          selectionHandleColor: Color(0xFFF5F5DC),
         ),
       ),
       home: const SplashScreen(),

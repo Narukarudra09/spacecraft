@@ -77,12 +77,12 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DropdownButtonFormField<String>(
-                dropdownColor: Color.fromARGB(255, 17, 24, 31),
+                dropdownColor: const Color.fromARGB(255, 17, 24, 31),
                 value: _designType,
                 decoration: InputDecoration(
                   labelText: 'Design Type',
                   labelStyle: GoogleFonts.montserrat(
-                      color: Color.fromARGB(255, 17, 24, 31)),
+                      color: const Color.fromARGB(255, 17, 24, 31)),
                   border: const OutlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
@@ -104,7 +104,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                         style: GoogleFonts.montserrat(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFF5F5DC),
+                          color: const Color(0xFFF5F5DC),
                         ),
                       )),
                   DropdownMenuItem(
@@ -114,7 +114,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                         style: GoogleFonts.montserrat(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFF5F5DC),
+                          color: const Color(0xFFF5F5DC),
                         ),
                       )),
                 ],
@@ -134,13 +134,13 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               TextFormField(
                 style: GoogleFonts.montserrat(
                   fontSize: 16,
-                  color: Color(0xFFF5F5DC),
+                  color: const Color(0xFFF5F5DC),
                 ),
                 controller: _titleController,
                 decoration: InputDecoration(
                   labelText: 'Title',
                   labelStyle: GoogleFonts.montserrat(
-                      color: Color.fromARGB(255, 17, 24, 31)),
+                      color: const Color.fromARGB(255, 17, 24, 31)),
                   border: const OutlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
@@ -165,13 +165,13 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               TextFormField(
                 style: GoogleFonts.montserrat(
                   fontSize: 16,
-                  color: Color(0xFFF5F5DC),
+                  color: const Color(0xFFF5F5DC),
                 ),
                 controller: _subtitleController,
                 decoration: InputDecoration(
                   labelText: 'Subtitle',
                   labelStyle: GoogleFonts.montserrat(
-                      color: Color.fromARGB(255, 17, 24, 31)),
+                      color: const Color.fromARGB(255, 17, 24, 31)),
                   border: const OutlineInputBorder(
                     borderSide:
                         BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
@@ -199,7 +199,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   height: 200,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Color.fromARGB(255, 17, 24, 31),
+                      color: const Color.fromARGB(255, 17, 24, 31),
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -221,7 +221,8 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                               Text(
                                 'Tap to add image',
                                 style: GoogleFonts.montserrat(
-                                    color: Color.fromARGB(255, 17, 24, 31)),
+                                    color:
+                                        const Color.fromARGB(255, 17, 24, 31)),
                               ),
                             ],
                           ),
@@ -240,7 +241,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                         child: Text(
                           'Cancel',
                           style: GoogleFonts.montserrat(
-                            color: Color.fromARGB(255, 17, 24, 31),
+                            color: const Color.fromARGB(255, 17, 24, 31),
                           ),
                         ),
                       ),
@@ -250,8 +251,8 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   Expanded(
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Color.fromARGB(255, 17, 24, 31),
+                        backgroundColor: WidgetStateProperty.all(
+                          const Color.fromARGB(255, 17, 24, 31),
                         ),
                       ),
                       onPressed: () {
