@@ -28,6 +28,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           child: ListView(
             children: [
               const SizedBox(height: 20),
+              Text(
+                "what you think about us?",
+                style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  color: const Color(0xFFF5F5DC),
+                ),
+              ),
+              const SizedBox(height: 16),
               TextFormField(
                 keyboardType: TextInputType.text,
                 maxLines: 5,
@@ -37,7 +45,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 ),
                 controller: _feedbackController,
                 decoration: InputDecoration(
-                  labelText: 'Feedback',
+                  labelText: 'Feedback us',
                   labelStyle:
                       GoogleFonts.montserrat(color: const Color(0xFFF5F5DC)),
                   border: OutlineInputBorder(
@@ -89,8 +97,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: const Text('Save Changes',
-                      style: TextStyle(color: Color(0xFFF5F5DC))),
+                  child: const Text('Submit ',
+                      style: TextStyle(color: Color(0xFFF5F5DC), fontSize: 16)),
                 ),
               ),
             ],
