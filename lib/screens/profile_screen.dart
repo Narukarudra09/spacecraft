@@ -21,20 +21,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
-  void initState() {
-    super.initState();
-    // Simulate fetching uploaded content
-    _fetchUploadedContent();
-  }
-
-  Future<void> _fetchUploadedContent() async {
-    // Simulate a delay for fetching content
-    await Future.delayed(const Duration(seconds: 2));
-
-    // Simulate fetched content
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -99,13 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 17, 24, 31),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       color: const Color.fromARGB(255, 64, 87, 82)
                           .withOpacity(0.5),
                     ),

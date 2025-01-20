@@ -21,7 +21,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
   final _subtitleController = TextEditingController();
   final _specificationController = TextEditingController();
   File? _imageFile;
-  String _designType = 'Room'; // Default value
+  String _designType = 'Room';
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -89,17 +89,17 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 21, 27, 31),
@@ -152,17 +152,17 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 21, 27, 31),
@@ -188,17 +188,17 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 21, 27, 31),
@@ -226,17 +226,17 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: Color.fromARGB(255, 21, 27, 31)),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 21, 27, 31),
