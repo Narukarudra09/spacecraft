@@ -26,7 +26,7 @@ class SettingsProvider with ChangeNotifier {
             .profile
             .email
             .toString(),
-        'message': feedback,
+        'feedback': feedback,
         'id': DateTime.now().toIso8601String(),
       });
       notifyListeners();
