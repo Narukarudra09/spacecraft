@@ -80,8 +80,12 @@ class _LoginScreenState extends State<LoginScreen> {
               profilePicture: profilePicture,
             );
         if (success) {
+          await Provider.of<AuthProvider>(context, listen: false).login(
+            email: email,
+            password: password,
+          );
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()));
+              MaterialPageRoute(builder: (context) => const MainScreen()));
         } else {
           // Handle sign up failure
           ScaffoldMessenger.of(context).showSnackBar(

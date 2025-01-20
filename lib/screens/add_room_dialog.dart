@@ -19,6 +19,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _subtitleController = TextEditingController();
+  final _specificationController = TextEditingController();
   File? _imageFile;
   String _designType = 'Room'; // Default value
 
@@ -77,24 +78,31 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DropdownButtonFormField<String>(
-                dropdownColor: const Color.fromARGB(255, 17, 24, 31),
+                iconEnabledColor: const Color(0xFFF5F5DC),
+                iconDisabledColor: const Color(0xFFF5F5DC),
+                dropdownColor: const Color.fromARGB(255, 21, 27, 31),
                 value: _designType,
                 decoration: InputDecoration(
                   labelText: 'Design Type',
-                  labelStyle: GoogleFonts.montserrat(
-                      color: const Color.fromARGB(255, 17, 24, 31)),
-                  border: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  labelStyle:
+                      GoogleFonts.montserrat(color: const Color(0xFFF5F5DC)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 21, 27, 31),
                 ),
                 items: [
                   DropdownMenuItem(
@@ -139,20 +147,25 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                 controller: _titleController,
                 decoration: InputDecoration(
                   labelText: 'Title',
-                  labelStyle: GoogleFonts.montserrat(
-                      color: const Color.fromARGB(255, 17, 24, 31)),
-                  border: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  labelStyle:
+                      GoogleFonts.montserrat(color: const Color(0xFFF5F5DC)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 21, 27, 31),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -170,24 +183,65 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                 controller: _subtitleController,
                 decoration: InputDecoration(
                   labelText: 'Subtitle',
-                  labelStyle: GoogleFonts.montserrat(
-                      color: const Color.fromARGB(255, 17, 24, 31)),
-                  border: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  labelStyle:
+                      GoogleFonts.montserrat(color: const Color(0xFFF5F5DC)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 17, 24, 31)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromARGB(255, 17, 24, 31), width: 2),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 21, 27, 31),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a subtitle';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                style: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  color: const Color(0xFFF5F5DC),
+                ),
+                controller: _specificationController,
+                decoration: InputDecoration(
+                  labelText: 'Specification',
+                  labelStyle:
+                      GoogleFonts.montserrat(color: const Color(0xFFF5F5DC)),
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 21, 27, 31)),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 21, 27, 31),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter room specification';
                   }
                   return null;
                 },
@@ -198,6 +252,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                 child: Container(
                   height: 200,
                   decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 17, 24, 31),
                     border: Border.all(
                       color: const Color.fromARGB(255, 17, 24, 31),
                     ),
@@ -216,13 +271,16 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.add_a_photo, size: 50),
+                              const Icon(
+                                Icons.add_a_photo,
+                                size: 50,
+                                color: Color(0xFFF5F5DC),
+                              ),
                               const SizedBox(height: 8),
                               Text(
                                 'Tap to add image',
                                 style: GoogleFonts.montserrat(
-                                    color:
-                                        const Color.fromARGB(255, 17, 24, 31)),
+                                    color: const Color(0xFFF5F5DC)),
                               ),
                             ],
                           ),
@@ -292,7 +350,8 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Text(
                           'Add Design',
-                          style: GoogleFonts.montserrat(color: Colors.white),
+                          style: GoogleFonts.montserrat(
+                              color: const Color(0xFFF5F5DC)),
                         ),
                       ),
                     ),
@@ -310,6 +369,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
   void dispose() {
     _titleController.dispose();
     _subtitleController.dispose();
+    _specificationController.dispose();
     super.dispose();
   }
 }

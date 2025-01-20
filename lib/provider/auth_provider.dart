@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -325,6 +326,27 @@ class AuthProvider with ChangeNotifier {
       }
     } catch (e) {
       _error = e.toString();
+    }
+  }
+
+  Future<File?> getProfilePicture() async {
+    final profilePictureUrl = _profile.profilePicture;
+    if (profilePictureUrl.isEmpty) {
+      return null;
+    }
+
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+    final String appDocPath = appDocDir.path;
+    final String fileName = path.basename(profilePictureUrl);
+    final File localFile = File(path.join(appDocPath, fileName));
+
+    if (await localFile.exists()) {
+      return localFile;
+    } else {
+      // Fetch the image from the URL
+      final response = await http.get(Uri.parse(profilePictureUrl));
+      await localFile.writeAsBytes(response.bodyBytes);
+      return localFile;
     }
   }
 }
