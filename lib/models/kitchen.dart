@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:spacecraft/models/searchdesign.dart';
 
-
 class Kitchen implements SearchableItem {
   @override
   final String id;
@@ -13,6 +12,8 @@ class Kitchen implements SearchableItem {
   @override
   final String description;
   @override
+  final String specification;
+  @override
   bool isFavorite;
   final VoidCallback onTap;
   final VoidCallback? onDelete;
@@ -22,6 +23,7 @@ class Kitchen implements SearchableItem {
     required this.name,
     required this.imageUrl,
     required this.description,
+    required this.specification,
     this.isFavorite = false,
     required this.onTap,
     this.onDelete,
@@ -32,6 +34,7 @@ class Kitchen implements SearchableItem {
     String? name,
     String? imageUrl,
     String? description,
+    String? specification,
     bool? isFavorite,
     VoidCallback? onTap,
     VoidCallback? onDelete,
@@ -44,6 +47,7 @@ class Kitchen implements SearchableItem {
       isFavorite: isFavorite ?? this.isFavorite,
       onTap: onTap ?? this.onTap,
       onDelete: onDelete ?? this.onDelete,
+      specification: specification ?? this.specification,
     );
   }
 }

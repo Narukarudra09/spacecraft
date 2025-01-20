@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:spacecraft/models/searchdesign.dart';
 
-
 class Room implements SearchableItem {
   @override
   final String id;
@@ -12,6 +11,8 @@ class Room implements SearchableItem {
   final String imageUrl;
   @override
   final String description;
+  @override
+  final String specification;
   @override
   bool isFavorite;
   final VoidCallback onTap;
@@ -23,6 +24,7 @@ class Room implements SearchableItem {
     required this.name,
     required this.imageUrl,
     required this.description,
+    required this.specification,
     this.isFavorite = false,
     required this.onTap,
     this.onDelete,
@@ -34,6 +36,7 @@ class Room implements SearchableItem {
     String? name,
     String? imageUrl,
     String? description,
+    String? specification,
     bool? isFavorite,
     VoidCallback? onTap,
     VoidCallback? onDelete,
@@ -48,6 +51,7 @@ class Room implements SearchableItem {
       onTap: onTap ?? this.onTap,
       onDelete: onDelete ?? this.onDelete,
       type: type ?? this.type,
+      specification: specification ?? this.specification,
     );
   }
 }

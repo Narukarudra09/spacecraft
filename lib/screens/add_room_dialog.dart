@@ -212,6 +212,8 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                keyboardType: TextInputType.text,
+                maxLines: 5,
                 style: GoogleFonts.montserrat(
                   fontSize: 16,
                   color: const Color(0xFFF5F5DC),
@@ -331,6 +333,7 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
                             imageUrl: _imageFile!.path,
                             type: _designType,
                             onTap: () {},
+                            specification: _specificationController.text,
                           );
 
                           // Add to provider

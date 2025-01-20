@@ -47,7 +47,14 @@ class KitchenDetailScreen extends StatelessWidget {
                     kitchen.description,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFF5F5DC),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    kitchen.specification,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 14,
                       color: Color(0xFFF5F5DC),
                     ),
                   ),

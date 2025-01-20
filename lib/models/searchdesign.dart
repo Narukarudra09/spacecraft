@@ -7,5 +7,7 @@ abstract class SearchableItem {
 
   String get description;
 
+  String get specification;
+
   bool get isFavorite;
 }

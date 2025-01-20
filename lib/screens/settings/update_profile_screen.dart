@@ -275,7 +275,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       subtitleTextStyle:
                           GoogleFonts.montserrat(color: Colors.white),
                       subtitle: Text(
-                          '${profile.dateOfBirth.year}-${profile.dateOfBirth.month}-${profile.dateOfBirth.day}'),
+                          '${profile.dateOfBirth.day}-${profile.dateOfBirth.month}-${profile.dateOfBirth.year}'),
                       onTap: () async {
                         final date = await showDatePicker(
                           context: context,

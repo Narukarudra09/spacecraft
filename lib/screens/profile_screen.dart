@@ -86,119 +86,125 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return const Center(child: Text('No profile data available.'));
           }
 
-          return ListView(
-            children: [
-              ProfileCard(
-                name: profile.fullName,
-                email: profile.email,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProfileCard(
+                  name: profile.fullName,
+                  email: profile.email,
+                ),
+                Container(
+                  margin: const EdgeInsets.all(8.0),
                   padding: const EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 17, 24, 31),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(255, 64, 87, 82)
-                                .withOpacity(0.5),
-                          ),
-                          child: const Icon(Icons.table_chart,
-                              color: Color(0xFFF5F5DC)),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: const Color.fromARGB(255, 64, 87, 82)
+                          .withOpacity(0.5),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.table_chart, color: Color(0xFFF5F5DC)),
+                        const SizedBox(
+                          width: 5,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "Designs",
+                          style:
+                              GoogleFonts.montserrat(color: Color(0xFFF5F5DC)),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Consumer<CombinedSearchProvider>(
-                builder: (context, provider, _) => GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: provider.filteredItems.length,
-                  itemBuilder: (context, index) {
-                    final item = provider.filteredItems[index];
-                    return GestureDetector(
-                      onTap: () {
-                        if (item is Room) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => RoomDetailScreen(room: item),
-                            ),
-                          );
-                        } else if (item is Kitchen) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  KitchenDetailScreen(kitchen: item),
-                            ),
-                          );
-                        }
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.asset(
-                                item.imageUrl,
-                                fit: BoxFit.cover,
+                const SizedBox(height: 20),
+                Consumer<CombinedSearchProvider>(
+                  builder: (context, provider, _) => GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: provider.filteredItems.length,
+                    itemBuilder: (context, index) {
+                      final item = provider.filteredItems[index];
+                      return GestureDetector(
+                        onTap: () {
+                          if (item is Room) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => RoomDetailScreen(room: item),
                               ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
+                            );
+                          } else if (item is Kitchen) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    KitchenDetailScreen(kitchen: item),
                               ),
+                            );
+                          }
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.6),
                                 borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
                               ),
-                              child: Text(
-                                item is Room ? 'Room' : 'Kitchen',
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  item.imageUrl,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  item is Room ? 'Room' : 'Kitchen',
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
