@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:spacecraft/models/searchdesign.dart';
 
 class Kitchen implements SearchableItem {
@@ -49,5 +50,22 @@ class Kitchen implements SearchableItem {
       onDelete: onDelete ?? this.onDelete,
       specification: specification ?? this.specification,
     );
+  }
+
+  Future<void> updateFavoriteStatusInDatabase() async {
+    final databaseReference = FirebaseDatabase.instance.ref("favorite");
+    final snapshot = await databaseReference.child('kitchen').child(id).get();
+    if (snapshot.exists) {
+      await databaseReference
+          .child('kitchen')
+          .child(id)
+          .update({'isFavorite': isFavorite});
+    } else {
+      await databaseReference
+          .child('kitchen')
+          .child(id)
+          .push()
+          .set({'isFavorite': isFavorite, 'id': id});
+    }
   }
 }

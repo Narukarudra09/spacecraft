@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../models/room.dart';
@@ -174,10 +175,37 @@ class RoomProvider with ChangeNotifier {
         _rooms[roomIndex] = _rooms[roomIndex].copyWith(
           isFavorite: !_rooms[roomIndex].isFavorite,
         );
+
+        // Update Realtime Database
+        await _rooms[roomIndex].updateFavoriteStatusInDatabase();
+
         notifyListeners();
       }
     } catch (e) {
       _handleError('Failed to update favorite status: ${e.toString()}');
+    }
+  }
+
+  Future<void> loadFavoritesFromDatabase() async {
+    try {
+      final databaseReference = FirebaseDatabase.instance.ref("favorites");
+      final snapshot = await databaseReference.child('rooms').get();
+      if (snapshot.exists) {
+        final roomsData = snapshot.value as Map<dynamic, dynamic>;
+
+        roomsData.forEach((key, value) {
+          final roomIndex = _rooms.indexWhere((room) => room.id == key);
+          if (roomIndex >= 0) {
+            _rooms[roomIndex] = _rooms[roomIndex].copyWith(
+              isFavorite: value['isFavorite'] ?? false,
+            );
+          }
+        });
+      }
+
+      notifyListeners();
+    } catch (e) {
+      _handleError('Failed to load favorites: ${e.toString()}');
     }
   }
 

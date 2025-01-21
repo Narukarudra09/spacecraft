@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacecraft/provider/auth_provider.dart';
 import 'package:spacecraft/screens/main_screen.dart';
 
+import '../provider/kitchen_provider.dart';
+import '../provider/room_provider.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/onboarding_screen.dart';
 
@@ -32,6 +34,10 @@ class SplashServices {
     } else if (user != null) {
       await Provider.of<AuthProvider>(context, listen: false)
           .loadUserDataFromPreferences();
+      await Provider.of<RoomProvider>(context, listen: false)
+          .loadFavoritesFromDatabase();
+      await Provider.of<KitchenProvider>(context, listen: false)
+          .loadFavoritesFromDatabase();
       Timer(
         const Duration(seconds: 2),
         () {

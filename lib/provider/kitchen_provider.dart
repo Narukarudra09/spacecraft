@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../models/kitchen.dart';
@@ -177,10 +178,38 @@ class KitchenProvider with ChangeNotifier {
         _Kitchen[kitchenIndex] = _Kitchen[kitchenIndex].copyWith(
           isFavorite: !_Kitchen[kitchenIndex].isFavorite,
         );
+
+        // Update Realtime Database
+        await _Kitchen[kitchenIndex].updateFavoriteStatusInDatabase();
+
         notifyListeners();
       }
     } catch (e) {
       _handleError('Failed to update favorite status: ${e.toString()}');
+    }
+  }
+
+  Future<void> loadFavoritesFromDatabase() async {
+    try {
+      final databaseReference = FirebaseDatabase.instance.ref("favorites");
+      final snapshot = await databaseReference.child('kitchens').get();
+      if (snapshot.exists) {
+        final kitchensData = snapshot.value as Map<dynamic, dynamic>;
+
+        kitchensData.forEach((key, value) {
+          final kitchenIndex =
+              _Kitchen.indexWhere((kitchen) => kitchen.id == key);
+          if (kitchenIndex >= 0) {
+            _Kitchen[kitchenIndex] = _Kitchen[kitchenIndex].copyWith(
+              isFavorite: value['isFavorite'] ?? false,
+            );
+          }
+        });
+      }
+
+      notifyListeners();
+    } catch (e) {
+      _handleError('Failed to load favorites: ${e.toString()}');
     }
   }
 

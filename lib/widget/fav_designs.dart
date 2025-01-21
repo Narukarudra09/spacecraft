@@ -7,17 +7,31 @@ import '../provider/kitchen_provider.dart';
 import '../provider/room_provider.dart';
 import 'kitchen_card.dart';
 
-class FavDesigns extends StatelessWidget {
+class FavDesigns extends StatefulWidget {
   const FavDesigns({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    RoomProvider roomProvider = Provider.of<RoomProvider>(context);
-    KitchenProvider kitchenProvider = Provider.of<KitchenProvider>(context);
+  _FavDesignsState createState() => _FavDesignsState();
+}
 
+class _FavDesignsState extends State<FavDesigns> {
+  @override
+  void initState() {
+    super.initState();
+    // Load favorites from the database when the widget is initialized
+    final roomProvider = Provider.of<RoomProvider>(context, listen: false);
+    final kitchenProvider =
+        Provider.of<KitchenProvider>(context, listen: false);
+
+    roomProvider.loadFavoritesFromDatabase();
+    kitchenProvider.loadFavoritesFromDatabase();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       children: [
-        if (roomProvider.favorites.isNotEmpty)
+        if (Provider.of<RoomProvider>(context).favorites.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
             child: Text(
@@ -40,13 +54,13 @@ class FavDesigns extends StatelessWidget {
                 RoomCard(room: provider.favorites[index]),
           ),
         ),
-        if (kitchenProvider.favorites.isNotEmpty)
+        if (Provider.of<KitchenProvider>(context).favorites.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 8),
             child: Text(
               "Kitchen",
               style: GoogleFonts.montserrat(
-                  color: Color(0xFFF5F5DC), fontSize: 18),
+                  color: const Color(0xFFF5F5DC), fontSize: 18),
             ),
           ),
         Consumer<KitchenProvider>(
